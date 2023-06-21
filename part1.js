@@ -1,101 +1,66 @@
 var rs = require('readline-sync');
 
-//   rs.keyIn('Press a key to start!');
-
-const board = {
-  borderTop: '---------',
-  rowA: '| - - - |',
-  rowB: '| - - - |',
-  rowC: '| - - - |',
-  borderBottom: '---------',
+const battleshipBoard = {
+  borderTop: '  --1-2-3--',
+  rowA: 'A | - - - |',
+  rowB: 'B | - - - |',
+  rowC: 'C | - - - |',
+  borderBottom: '  ---------',
 }
 
-const randomNumber = () => Math.floor(Math.random() * 9);
+const randomNum = () => Math.floor(Math.random() * 9) + 1;
 
-const switchStatement = (one, two, three, number, row) => {
-  switch(number) {
-    case one:
-      row.charAt(2) = 'O';
-    break;
-    case two:
-      row.charAt(4) = 'O';
-    break;
-    case three:
-      row.charAt(6) = 'O';
-    break;
-    default: 
-      console.log('Impossible');
+const twoRandomShips = () => {
+  let shipOne = randomNum();
+  let shipTwo = randomNum();
+  if (shipTwo === shipOne) {
+    shipTwo = randomNum();
   }
 }
 
-const randomSpot = () => {
-  let number = randomNumber();
-  const rowSpots = [2, 4, 6];
-  const array = [];
-
-  const rowACondition = number === 0 || number === 1 || number === 2;
-  const rowBCondition = number === 3 || number === 4 || number === 5;
-  const rowCCondition = number === 6 || number === 7 || number === 8;
-  
-  if (rowACondition) {
-    let row = board.rowA;
-    switch(number) {
-      case 0:
-        row.charAt(2) = 'O';
-      break;
-      case 1:
-        row.charAt(4) = 'O';
-      break;
-      case 2:
-        row.charAt(6) = 'O';
-      break;
-      default: 
-        console.log('Impossible');
-    }
-  }
-  if (rowBCondition) {
-    let row = board.rowB;
-    switch(number) {
-      case 3:
-        row.charAt(2) = 'O';
-      break;
-      case 4:
-        row.charAt(4) = 'O';
-      break;
-      case 5:
-        row.charAt(6) = 'O';
-      break;
-      default: 
-        console.log('Impossible');
-    }
-  }
-  if (rowCCondition) {
-    let row = board.rowC;
-    switch(number) {
-      case 6:
-        row.charAt(2) = 'O';
-      break;
-      case 7:
-        row.charAt(4) = 'O';
-      break;
-      case 8:
-        row.charAt(6) = 'O';
-      break;
-      default: 
-        console.log('Impossible');
-    }
-  }
-  console.log(number);  
-}
-
-randomSpot();
-// console.log(board);
-
-const logBoard = () => {
-  for (let [property, value] of Object.entries(board)) {
+const startGame = () => {
+  rs.keyIn('Press a key to start! ');
+  for (let [property, value] of Object.entries(battleshipBoard)) {
     console.log(value);
   }
+  twoRandomShips();
 }
+
+const shipSpot = (ship) => {
+  
+}
+
+const placeShipOnBoard = (ship) => {
+  const rowACondition = ship === 0 || ship === 1 || ship === 2;
+  const rowBCondition = ship === 3 || ship === 4 || ship === 5;
+  const rowCCondition = ship === 6 || ship === 7 || ship === 8;
+  
+  if (rowACondition) {
+    battleshipBoard.rowA = shipSpot(ship);
+  }
+  if (rowBCondition) {
+    battleshipBoard.rowB = shipSpot(ship);
+  }
+  if (rowCCondition) {
+    battleshipBoard.rowC = shipSpot(ship);
+  }
+}
+
+// const addRandomShip = (one, two, three, spotNum) => {
+//   switch(spotNum) {
+//     case one:
+//       row.charAt(2) = 'O';
+//     break;
+//     case two:
+//       row.charAt(4) = 'O';
+//     break;
+//     case three:
+//       row.charAt(6) = 'O';
+//     break;
+//     default: 
+//       console.log('Impossible');
+//   }
+// }
 
 // const game = () => {
 //   let randomNumber = Math.floor(Math.random() * 3);
