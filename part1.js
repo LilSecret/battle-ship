@@ -1,10 +1,16 @@
 var rs = require('readline-sync');
 
+const board = {
+  rowA: ['-', '-', '-'],
+  rowB: ['-', '-', '-'],
+  rowC: ['-', '-', '-'],
+}
+
 const battleshipBoard = {
   borderTop: '  --1-2-3--',
-  rowA: 'A | - - - |',
-  rowB: 'B | - - - |',
-  rowC: 'C | - - - |',
+  rowA: `A | ${board.rowA[0]} ${board.rowA[1]} ${board.rowA[2]} |`,
+  rowB: `B | ${board.rowB[0]} ${board.rowB[1]} ${board.rowB[2]} |`,
+  rowC: `C | ${board.rowC[0]} ${board.rowC[1]} ${board.rowC[2]} |`,
   borderBottom: '  ---------',
 }
 
@@ -16,59 +22,82 @@ const twoRandomShips = () => {
   if (shipTwo === shipOne) {
     shipTwo = randomNum();
   }
-}
-
-const startGame = () => {
-  rs.keyIn('Press a key to start! ');
-  for (let [property, value] of Object.entries(battleshipBoard)) {
-    console.log(value);
-  }
-  twoRandomShips();
-}
-
-const shipSpot = (ship) => {
-  
+  placeShipOnBoard(shipOne);
+  placeShipOnBoard(shipTwo);
 }
 
 const placeShipOnBoard = (ship) => {
-  const rowACondition = ship === 0 || ship === 1 || ship === 2;
-  const rowBCondition = ship === 3 || ship === 4 || ship === 5;
-  const rowCCondition = ship === 6 || ship === 7 || ship === 8;
-  
-  if (rowACondition) {
-    battleshipBoard.rowA = shipSpot(ship);
+  const rowA = ship === 1 || ship === 2 || ship === 3;
+  const rowB = ship === 4 || ship === 5 || ship === 6;
+  const rowC = ship === 7 || ship === 8 || ship === 9;
+  const one = ship === 1 || ship === 4 || ship === 7;
+  const two = ship === 2 || ship === 5 || ship === 8;
+  const three = ship === 3 || ship === 6 || ship === 9;
+
+  if (rowA) {
+    if (one) {
+      board.rowA[0] = '0';
+    }
+    if (two) {
+      board.rowA[1] = '0';
+    }
+    if (three) {
+      board.rowA[2] = '0';
+    }
   }
-  if (rowBCondition) {
-    battleshipBoard.rowB = shipSpot(ship);
+  if (rowB) {
+    if (one) {
+      board.rowB[0] = '0';
+    }
+    if (two) {
+      board.rowB[1] = '0';
+    }
+    if (three) {
+      board.rowB[2] = '0';
+    }
   }
-  if (rowCCondition) {
-    battleshipBoard.rowC = shipSpot(ship);
+  if (rowC) {
+    if (one) {
+      board.rowC[0] = '0';
+    }
+    if (two) {
+      board.rowC[1] = '0';
+    }
+    if (three) {
+      board.rowC[2] = '0';
+    }
   }
 }
 
-// const addRandomShip = (one, two, three, spotNum) => {
-//   switch(spotNum) {
-//     case one:
-//       row.charAt(2) = 'O';
-//     break;
-//     case two:
-//       row.charAt(4) = 'O';
-//     break;
-//     case three:
-//       row.charAt(6) = 'O';
-//     break;
-//     default: 
-//       console.log('Impossible');
-//   }
-// }
+let startGame;
 
-// const game = () => {
-//   let randomNumber = Math.floor(Math.random() * 3);
-//   console.log(randomNumber);
-  
-// }
+if (!startGame) {
+  rs.keyIn('Press a key to start! ');
+  twoRandomShips();
+  console.log(board);
+}
 
-// const startGame = () => {
-//   gameStarted = true;
-//   game();
-// }
+const logBattleshipBoard = () => {
+  const battleshipBoard = {
+    borderTop: '  --1-2-3--',
+    rowA: `A | ${board.rowA[0]} ${board.rowA[1]} ${board.rowA[2]} |`,
+    rowB: `B | ${board.rowB[0]} ${board.rowB[1]} ${board.rowB[2]} |`,
+    rowC: `C | ${board.rowC[0]} ${board.rowC[1]} ${board.rowC[2]} |`,
+    borderBottom: '  ---------',
+  }
+
+  for (let [property, value] of Object.entries(battleshipBoard)) {
+    console.log(value);
+  }
+}
+
+logBattleshipBoard();
+
+
+// Would have to a row and letter conditions A1 || B1
+// When changing ship would have to grab old and put in the new
+// can only change property method by battleshipBoard.rowA
+
+// Steps 
+// Step 1 randomly place 2 ships in separate locations
+// Each Ship is 1 unit long
