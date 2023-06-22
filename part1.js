@@ -6,6 +6,12 @@ const board = {
   rowC: ['-', '-', '-'],
 }
 
+const userBoard = {
+  rowA: ['-', '-', '-'],
+  rowB: ['-', '-', '-'],
+  rowC: ['-', '-', '-'],
+}
+
 const battleshipBoard = {
   borderTop: '  --1-2-3--',
   rowA: `A | ${board.rowA[0]} ${board.rowA[1]} ${board.rowA[2]} |`,
@@ -69,20 +75,12 @@ const placeShipOnBoard = (ship) => {
   }
 }
 
-let startGame;
-
-if (!startGame) {
-  rs.keyIn('Press a key to start! ');
-  twoRandomShips();
-  console.log(board);
-}
-
 const logBattleshipBoard = () => {
   const battleshipBoard = {
     borderTop: '  --1-2-3--',
-    rowA: `A | ${board.rowA[0]} ${board.rowA[1]} ${board.rowA[2]} |`,
-    rowB: `B | ${board.rowB[0]} ${board.rowB[1]} ${board.rowB[2]} |`,
-    rowC: `C | ${board.rowC[0]} ${board.rowC[1]} ${board.rowC[2]} |`,
+    rowA: `A | ${userBoard.rowA[0]} ${userBoard.rowA[1]} ${userBoard.rowA[2]} |`,
+    rowB: `B | ${userBoard.rowB[0]} ${userBoard.rowB[1]} ${userBoard.rowB[2]} |`,
+    rowC: `C | ${userBoard.rowC[0]} ${userBoard.rowC[1]} ${userBoard.rowC[2]} |`,
     borderBottom: '  ---------',
   }
 
@@ -91,8 +89,23 @@ const logBattleshipBoard = () => {
   }
 }
 
-logBattleshipBoard();
+const checkStrike = (strike) => {
+  let validStrike = /^[a-c][1-3].*$/;
+  if (strike === validStrike) {
+    console.log('This is valid!');
+  }
+}
 
+let startGame;
+
+if (!startGame) {
+  rs.keyIn('Press a key to start! ');
+  twoRandomShips();
+  console.log(board);
+  logBattleshipBoard();
+  let userInput = rs.question('Enter a Location to Strike = ');
+  checkStrike(userInput);
+}
 
 // Would have to a row and letter conditions A1 || B1
 // When changing ship would have to grab old and put in the new
