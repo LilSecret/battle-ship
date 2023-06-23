@@ -12,14 +12,6 @@ const userBoard = {
   rowC: ['-', '-', '-'],
 }
 
-const battleshipBoard = {
-  borderTop: '  --1-2-3--',
-  rowA: `A | ${board.rowA[0]} ${board.rowA[1]} ${board.rowA[2]} |`,
-  rowB: `B | ${board.rowB[0]} ${board.rowB[1]} ${board.rowB[2]} |`,
-  rowC: `C | ${board.rowC[0]} ${board.rowC[1]} ${board.rowC[2]} |`,
-  borderBottom: '  ---------',
-}
-
 const randomNum = () => Math.floor(Math.random() * 9) + 1;
 
 const twoRandomShips = () => {
