@@ -89,10 +89,14 @@ const logBattleshipBoard = () => {
   }
 }
 
-const checkStrike = (strike) => {
-  let validStrike = /^[a-c][1-3].*$/;
-  if (strike === validStrike) {
+const userStrike = () => {
+  let strike = rs.question('Enter a Location to Strike = ');
+  let validStrike = /^[a-c || A-C][1-3].*$/;
+  if (validStrike.test(strike)) {
     console.log('This is valid!');
+  } else {
+    console.log('Invalid Input! Try Again.');
+    userStrike();
   }
 }
 
@@ -103,8 +107,7 @@ if (!startGame) {
   twoRandomShips();
   console.log(board);
   logBattleshipBoard();
-  let userInput = rs.question('Enter a Location to Strike = ');
-  checkStrike(userInput);
+  userStrike();
 }
 
 // Would have to a row and letter conditions A1 || B1
