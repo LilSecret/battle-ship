@@ -1,6 +1,9 @@
 var rs = require('readline-sync');
 
 const randomShipNumbers = [];
+const userStrikes = [];
+let shipsDestroyed = 0;
+let shipObj;
 
 const board = {
   rowA: ['-', '-', '-'],
@@ -14,12 +17,11 @@ const userBoard = {
   rowC: ['-', '-', '-'],
 }
 
-const userStrikes = [];
-
 const randomNum = () => Math.floor(Math.random() * 9) + 1;
 
 const randomShips = (number) => {
   if (number < 10) {
+    shipObj = number;
     for (let i = 0; i < number; i++) {
       logRandomShips();
     }
@@ -110,7 +112,7 @@ const validStrike = () => {
     let letter = strikeInputs[0].toUpperCase();
     let number = +strikeInputs[1];
     if (userStrikes.includes(letter + number)) {
-      console.log('You have already used a strike here.');
+      console.log('You have already picked this location.');
       validStrike();
     } else {
       strikeBoard(letter, number);
@@ -126,11 +128,14 @@ const strikeBoard = (letter, number) => {
   let userSpot = userBoard['row' + letter][number - 1];
   let boardSpot = board['row' + letter][number - 1];
   if (boardSpot === '0') {
-    console.log('Hit! You have sunken a battleship. One ship remaining.');
+    if (shipsDestroyed === 0) {
+      console.log('Hit! You have sunken a battleship. One ship remaining.');
+    }
     userBoard['row' + letter][number - 1] = 'H';
+    shipsDestroyed++;
     logBattleshipBoard();
   } else {
-    console.log('It\s a miss!');
+    console.log('You have missed!');
     userBoard['row' + letter][number - 1] = 'M';
     logBattleshipBoard();
   }
@@ -139,12 +144,20 @@ const strikeBoard = (letter, number) => {
 let startGame;
 
 if (!startGame) {
+  startGame = true;
   rs.keyIn('Press a key to start! ');
   randomShips(2);
   console.log(board);
   logBattleshipBoard();
-  validStrike();
-  // console.log(userStrikes);
+  while (userStrikes.length < 5) {
+    while (shipsDestroyed <= shipObj) {
+      validStrike();
+    }
+  }
+  if (shipsDestroyed === shipObj) {
+    console.log('The Game is now over!');
+    startGame = false;
+  }
 }
 
 // Would have to a row and letter conditions A1 || B1
