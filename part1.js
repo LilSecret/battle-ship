@@ -150,7 +150,7 @@ const strikeBoard = (letter, number) => {
 
   rs.keyIn('Press a key to start! ');
   randomShips(2);
-  console.log(board);
+  // console.log(board);
   logBattleshipBoard();
   while (userStrikes.length < 5 && shipsDestroyed < shipObj) {
     validStrike();
