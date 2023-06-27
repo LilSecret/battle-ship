@@ -139,6 +139,8 @@ const strikeBoard = (letter, number) => {
     userBoard['row' + letter][number - 1] = 'M';
     logBattleshipBoard();
   }
+  // console.log(userStrikes);
+  // console.log(shipsDestroyed);
 }
 
 let startGame;
@@ -147,16 +149,16 @@ if (!startGame) {
   startGame = true;
   rs.keyIn('Press a key to start! ');
   randomShips(2);
-  console.log(board);
+  // console.log(board);
   logBattleshipBoard();
-  while (userStrikes.length < 5) {
-    while (shipsDestroyed <= shipObj) {
-      validStrike();
-    }
+  while (userStrikes.length < 5 && shipsDestroyed < shipObj) {
+    validStrike();
   }
   if (shipsDestroyed === shipObj) {
     console.log('The Game is now over!');
     startGame = false;
+  } else {
+    console.log('You are out of strikes! You Lose!');
   }
 }
 
