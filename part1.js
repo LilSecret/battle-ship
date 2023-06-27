@@ -1,23 +1,28 @@
 var rs = require('readline-sync');
 
-const randomShipNumbers = [];
-const userStrikes = [];
-let shipsDestroyed = 0;
-let shipObj;
+let startGame;
 
-const board = {
-  rowA: ['-', '-', '-'],
-  rowB: ['-', '-', '-'],
-  rowC: ['-', '-', '-'],
-}
+while (!startGame) {
+  startGame = true;
 
-const userBoard = {
-  rowA: ['-', '-', '-'],
-  rowB: ['-', '-', '-'],
-  rowC: ['-', '-', '-'],
-}
+  const randomShipNumbers = [];
+  const userStrikes = [];
+  let shipsDestroyed = 0;
+  let shipObj;
 
-const randomNum = () => Math.floor(Math.random() * 9) + 1;
+  const board = {
+    rowA: ['-', '-', '-'],
+    rowB: ['-', '-', '-'],
+    rowC: ['-', '-', '-'],
+  }
+
+  const userBoard = {
+    rowA: ['-', '-', '-'],
+    rowB: ['-', '-', '-'],
+    rowC: ['-', '-', '-'],
+  }
+
+  const randomNum = () => Math.floor(Math.random() * 9) + 1;
 
 const randomShips = (number) => {
   if (number < 10) {
@@ -143,22 +148,24 @@ const strikeBoard = (letter, number) => {
   // console.log(shipsDestroyed);
 }
 
-let startGame;
-
-if (!startGame) {
-  startGame = true;
   rs.keyIn('Press a key to start! ');
   randomShips(2);
-  // console.log(board);
+  console.log(board);
   logBattleshipBoard();
   while (userStrikes.length < 5 && shipsDestroyed < shipObj) {
     validStrike();
   }
   if (shipsDestroyed === shipObj) {
-    console.log('The Game is now over!');
-    startGame = false;
+    let game = rs.keyInYN('You have destroyed all battleships. Would you like to play again? Y/N');
+    if (game) {
+      startGame = false;
+    }
   } else {
     console.log('You are out of strikes! You Lose!');
+    let game = rs.keyInYN('Would you like to play again? Y/N');
+    if (game) {
+      startGame = false;
+    }
   }
 }
 
