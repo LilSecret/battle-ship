@@ -23,6 +23,7 @@ let startGame;
 while (!startGame) {
   startGame = true;
 
+  const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
   const randomShipNumbers = [];
   const userStrikes = [];
   let shipsDestroyed = 0;
@@ -39,6 +40,22 @@ while (!startGame) {
     rowB: ['-', '-', '-'],
     rowC: ['-', '-', '-'],
   }
+
+  const buildBoard = (amount) => {
+    const defaultBoard = {};
+      defaultBoard.numbers = '  ';
+      for (let i = 1; i < amount + 1; i++) {
+        defaultBoard.numbers += ('  ' + i + ' ');
+      }
+      for (let i = 0; i < amount; i++) {
+        defaultBoard['row' + letters[i]] = '';
+        defaultBoard['row' + letters[i]] = letters[i] + ' |   |   |   |   |   |   |   |   |   |   |'
+      }
+      // for (let [property, value] of Object.entries(defaultBoard)) {
+      //   console.log(value);
+      //   console.log('--------------------------------------------');
+      // }
+    }
 
   const randomNum = () => Math.floor(Math.random() * 9) + 1;
 
@@ -169,6 +186,7 @@ const strikeBoard = (letter, number) => {
   rs.keyIn('Press a key to start! ');
   randomShips(2);
   // console.log(board);
+  buildBoard(10);
   logBattleshipBoard();
   while (userStrikes.length < 5 && shipsDestroyed < shipObj) {
     validStrike();
