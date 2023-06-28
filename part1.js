@@ -23,21 +23,23 @@ while (!startGame) {
     rowC: ['-', '-', '-'],
   }
 
+  const grid = {};
+
   const buildBoard = (amount) => {
-    const defaultBoard = {};
-      defaultBoard.numbers = '  ';
-      for (let i = 1; i < amount + 1; i++) {
-        defaultBoard.numbers += ('  ' + i + ' ');
-      }
-      for (let i = 0; i < amount; i++) {
-        defaultBoard['row' + letters[i]] = '';
-        defaultBoard['row' + letters[i]] = letters[i] + ' |   |   |   |   |   |   |   |   |   |   |'
-      }
-      // for (let [property, value] of Object.entries(defaultBoard)) {
-      //   console.log(value);
-      //   console.log('--------------------------------------------');
-      // }
+    grid.numbers = '  ';
+    for (let i = 1; i < amount + 1; i++) {
+      grid.numbers += ('  ' + i + ' ');
     }
+    for (let i = 0; i < amount; i++) {
+      grid['row' + letters[i]] = '';
+      grid['row' + letters[i]] = letters[i] + ' |   |   |   |   |   |   |   |   |   |   |'
+    }
+    // for (let [property, value] of Object.entries(grid)) {
+    //   console.log(value);
+    //   console.log('--------------------------------------------');
+    // }
+    return amount * amount;
+  }
 
   const randomNum = () => Math.floor(Math.random() * 9) + 1;
 
