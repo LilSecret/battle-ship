@@ -1,5 +1,23 @@
 var rs = require('readline-sync');
 
+// new big board 
+
+const board = {};
+const boardLetters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
+const boardNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+const makeBoard = (letters, numbers) => {
+  board.numbers = '';
+  for (let number of numbers) {
+    board.numbers += (' ' + number + ' ');
+  }
+  for (let letter of letters) {
+    board['row' + letter] = '';
+  }
+}
+
+makeBoard(boardLetters, boardNumbers);
+
 let startGame;
 
 while (!startGame) {
