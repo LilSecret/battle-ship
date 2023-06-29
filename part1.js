@@ -6,7 +6,6 @@ while (!startGame) {
   startGame = true;
 
   const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
-  const randomShipNumbers = [];
   const userStrikes = [];
   let shipsDestroyed = 0;
   let shipObj;
@@ -32,7 +31,7 @@ while (!startGame) {
     }
     for (let i = 0; i < amount; i++) {
       grid['row' + letters[i]] = '';
-      grid['row' + letters[i]] = letters[i] + ' |   |   |   |   |   |   |   |   |   |   |'
+      grid['row' + letters[i]] = letters[i] + ' |   |   |   |   |   |   |   |   |   |   |';
     }
     // for (let [property, value] of Object.entries(grid)) {
     //   console.log(value);
@@ -65,10 +64,15 @@ while (!startGame) {
     } else {
       randomShipNumbers.push(randomShipNum);
     }
-    return randomShipNum
+    return randomShipNum;
   }
 
   const placeShipOnBoard = (ship) => {
+    // ships to place
+    // 2 unit ship OO
+    // 3 unit ships OOO OOO
+    // 4 unit ship OOOO
+    // 5 unit ship OOOOO
     const rowA = ship === 1 || ship === 2 || ship === 3;
     const rowB = ship === 4 || ship === 5 || ship === 6;
     const rowC = ship === 7 || ship === 8 || ship === 9;
@@ -168,14 +172,10 @@ while (!startGame) {
   }
 
   rs.keyIn('Press a key to start! ');
-  randomShips(2);
-  // console.log(board);
   buildBoard(10);
-  logBattleshipBoard();
-  while (userStrikes.length < 5 && shipsDestroyed < shipObj) {
-    validStrike();
-  }
+  
   if (shipsDestroyed === shipObj) {
+    console.log('You win!!!')
     let game = rs.keyInYN('You have destroyed all battleships. Would you like to play again? Y/N');
     if (game) {
       startGame = false;
