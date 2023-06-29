@@ -7,37 +7,34 @@ while (!startGame) {
 
   const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
   const userStrikes = [];
-  let shipsDestroyed = 0;
-  let shipObj;
-
-  const board = {
-    rowA: ['-', '-', '-'],
-    rowB: ['-', '-', '-'],
-    rowC: ['-', '-', '-'],
-  }
-
-  const userBoard = {
-    rowA: ['-', '-', '-'],
-    rowB: ['-', '-', '-'],
-    rowC: ['-', '-', '-'],
-  }
+  let objectives;
+  let points = 0;
 
   const grid = {};
+  const userBoard = {};
 
-  const buildBoard = (amount) => {
+  const buildGrid = (amount) => {
     grid.numbers = '  ';
     for (let i = 1; i < amount + 1; i++) {
       grid.numbers += ('  ' + i + ' ');
     }
     for (let i = 0; i < amount; i++) {
-      grid['row' + letters[i]] = '';
       grid['row' + letters[i]] = letters[i] + ' |   |   |   |   |   |   |   |   |   |   |';
     }
-    // for (let [property, value] of Object.entries(grid)) {
-    //   console.log(value);
-    //   console.log('--------------------------------------------');
-    // }
-    return amount * amount;
+  }
+  
+  const changeGrid = (letter) => {
+    grid['row' + letter] = letter + ' |';
+    for (let i = 0; i < ships.length; i++) {
+      grid['row' + letter] += ' ' + ships[i] + ' |' ;
+    }
+  }
+
+  const displayGrid = () => {
+    for (let [property, value] of Object.entries(grid)) {
+      console.log(value);
+      console.log('--------------------------------------------');
+    }
   }
 
   const randomNum = () => Math.floor(Math.random() * 9) + 1;
@@ -172,21 +169,22 @@ while (!startGame) {
   }
 
   rs.keyIn('Press a key to start! ');
-  buildBoard(10);
-  
-  if (shipsDestroyed === shipObj) {
-    console.log('You win!!!')
-    let game = rs.keyInYN('You have destroyed all battleships. Would you like to play again? Y/N');
-    if (game) {
-      startGame = false;
-    }
-  } else {
-    console.log('You are out of strikes! You Lose!');
-    let game = rs.keyInYN('Would you like to play again? Y/N');
-    if (game) {
-      startGame = false;
-    }
-  }
+  buildGrid(10);
+  displayGrid();
+
+  // if (shipsDestroyed === shipObj) {
+  //   console.log('You win!!!')
+  //   let game = rs.keyInYN('You have destroyed all battleships. Would you like to play again? Y/N');
+  //   if (game) {
+  //     startGame = false;
+  //   }
+  // } else {
+  //   console.log('You are out of strikes! You Lose!');
+  //   let game = rs.keyInYN('Would you like to play again? Y/N');
+  //   if (game) {
+  //     startGame = false;
+  //   }
+  // }
 }
 
 // Would have to a row and letter conditions A1 || B1
