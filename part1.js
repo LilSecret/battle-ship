@@ -11,7 +11,7 @@ while (!startGame) {
   let points = 0;
 
   const grid = {};
-  const userBoard = {};
+  const hiddenGrid = {};
 
   const buildGrid = (amount) => {
     grid.numbers = '  ';
@@ -20,6 +20,10 @@ while (!startGame) {
     }
     for (let i = 0; i < amount; i++) {
       grid['row' + letters[i]] = letters[i] + ' |   |   |   |   |   |   |   |   |   |   |';
+      hiddenGrid['row' + letters[i]] = [];
+      for (let j = 0; j < amount; j++) {
+        hiddenGrid['row' + letters[i]].push(' ');
+      }
     }
   }
   
@@ -171,20 +175,7 @@ while (!startGame) {
   rs.keyIn('Press a key to start! ');
   buildGrid(10);
   displayGrid();
-
-  // if (shipsDestroyed === shipObj) {
-  //   console.log('You win!!!')
-  //   let game = rs.keyInYN('You have destroyed all battleships. Would you like to play again? Y/N');
-  //   if (game) {
-  //     startGame = false;
-  //   }
-  // } else {
-  //   console.log('You are out of strikes! You Lose!');
-  //   let game = rs.keyInYN('Would you like to play again? Y/N');
-  //   if (game) {
-  //     startGame = false;
-  //   }
-  // }
+  console.log(hiddenGrid);
 }
 
 // Would have to a row and letter conditions A1 || B1
