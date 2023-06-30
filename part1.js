@@ -7,6 +7,7 @@ while (!startGame) {
 
   const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
   const shipsObj = ['OO', 'OOO', 'OOO', 'OOOO', 'OOOOO'];
+  const randomShipLocations = [];
   const userStrikes = [];
   let objectives = 0;
   let points = 0;
@@ -50,20 +51,22 @@ while (!startGame) {
 
   const randomNum = () => Math.floor(Math.random() * 100) + 1;
 
-  const randomShips = (number) => {
-    if (number < 10) {
-      shipObj = number;
-      for (let i = 0; i < number; i++) {
-        logRandomShips();
-      }
-      for (let num of randomShipNumbers) {
-        placeShipOnBoard(num);
-      }
-    } else {
-      console.log('Not enough squares for that number!');
+  const addShipObj = (ships) => {
+    for (let ship of ships) {
+      randomShipLocation();
     }
+    console.log(randomShipLocations);
   }
 
+  const randomShipLocation = () => {
+    let randomLocation = randomNum();
+    if (!randomShipLocations.includes(randomLocation)) {
+      randomShipLocations.push(randomLocation);
+    } else {
+      randomLocation();
+    }
+  }
+  
   const logRandomShips = () => {
     let randomShipNum = randomNum();
     
@@ -178,6 +181,7 @@ while (!startGame) {
   buildGrid(10);
   displayGrid();
   totalObjectives();
+  addShipObj(shipsObj);
   console.log(objectives);
   console.log(hiddenGrid);
 }
