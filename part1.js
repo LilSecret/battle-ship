@@ -6,8 +6,9 @@ while (!startGame) {
   startGame = true;
 
   const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
+  const shipsObj = ['OO', 'OOO', 'OOO', 'OOOO', 'OOOOO'];
   const userStrikes = [];
-  let objectives;
+  let objectives = 0;
   let points = 0;
 
   const grid = {};
@@ -41,7 +42,13 @@ while (!startGame) {
     }
   }
 
-  const randomNum = () => Math.floor(Math.random() * 9) + 1;
+  const totalObjectives = () => {
+    for (let ship of shipsObj) {
+      objectives += ship.length;
+    }
+  }
+
+  const randomNum = () => Math.floor(Math.random() * 100) + 1;
 
   const randomShips = (number) => {
     if (number < 10) {
@@ -69,11 +76,6 @@ while (!startGame) {
   }
 
   const placeShipOnBoard = (ship) => {
-    // ships to place
-    // 2 unit ship OO
-    // 3 unit ships OOO OOO
-    // 4 unit ship OOOO
-    // 5 unit ship OOOOO
     const rowA = ship === 1 || ship === 2 || ship === 3;
     const rowB = ship === 4 || ship === 5 || ship === 6;
     const rowC = ship === 7 || ship === 8 || ship === 9;
@@ -175,6 +177,8 @@ while (!startGame) {
   rs.keyIn('Press a key to start! ');
   buildGrid(10);
   displayGrid();
+  totalObjectives();
+  console.log(objectives);
   console.log(hiddenGrid);
 }
 
