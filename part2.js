@@ -12,20 +12,15 @@ while (!startGame) {
   let objectives = 0;
   let points = 0;
 
-  const grid = {};
-  const hiddenGrid = {};
+  const userGrid = {};
 
-  const buildGrid = (amount) => {
+  const buildGrid = (amount, grid) => {
     grid.numbers = '  ';
     for (let i = 1; i < amount + 1; i++) {
       grid.numbers += ('  ' + i + ' ');
     }
     for (let i = 0; i < amount; i++) {
       grid['row' + letters[i]] = letters[i] + ' |   |   |   |   |   |   |   |   |   |   |';
-      hiddenGrid['row' + letters[i]] = [];
-      for (let j = 0; j < amount; j++) {
-        hiddenGrid['row' + letters[i]].push(' ');
-      }
     }
   }
   
@@ -36,7 +31,7 @@ while (!startGame) {
     }
   }
 
-  const displayGrid = () => {
+  const displayGrid = (grid) => {
     for (let [property, value] of Object.entries(grid)) {
       console.log(value);
       console.log('--------------------------------------------');
@@ -89,13 +84,10 @@ while (!startGame) {
   }
 
   rs.keyIn('Press a key to start! ');
-  buildGrid(10);
-  displayGrid();
-  totalObjectives();
-  addShipObj(shipsObj);
-  // console.log(randomShipLocations);
-  // console.log(objectives);
-  // console.log(hiddenGrid);
+  buildGrid(10, userGrid);
+  displayGrid(userGrid);
+  // totalObjectives();
+  // addShipObj(shipsObj);
 }
 
 // Would have to a row and letter conditions A1 || B1
