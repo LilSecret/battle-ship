@@ -110,12 +110,8 @@ const validStrike = () => {
   let strike = rs.question('Enter a Location to Strike = ');
   let validateStrike = /^[a-c || A-C][1-3].*$/;
   if (validateStrike.test(strike)) {
-    const strikeInputs = [];
-    for (let char of strike) {
-      strikeInputs.push(char);
-    }
-    let letter = strikeInputs[0].toUpperCase();
-    let number = +strikeInputs[1];
+    let letter = strike.charAt(0).toUpperCase(); 
+    let number = +strike.charAt(1);
     if (userStrikes.includes(letter + number)) {
       console.log('You have already picked this location.');
       validStrike();
