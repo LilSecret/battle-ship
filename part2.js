@@ -49,6 +49,8 @@ while (!startGame) {
   const addShipObj = (ships) => {
     for (let ship of ships) {
       let location = randomNum();
+      let direction = Boolean(Math.round(Math.random()));
+      direction = direction ? 'vertical' : 'horizontal';
       console.log(location);
       if (/^(10|[1-9])$/.test(location)) {
         console.log('This is row A');
