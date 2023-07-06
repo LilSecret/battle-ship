@@ -53,22 +53,44 @@ while (!startGame) {
 
   const addShipObj = (ships) => {
     for (let ship of ships) {
-      randomShipLocation();
-    }
-  }
-
-  const randomShipLocation = () => {
-    let randomLocation = randomNum();
-    if (!randomShipLocations.includes(randomLocation)) {
-      randomShipLocations.push(randomLocation);
-    } else {
-      randomShipLocation();
+      let location = randomShipLocation();
+      console.log(location);
+      if (/^(10|[1-9])$/.test(location)) {
+        console.log('This is row A');
+      }
+      if (/^(1[1-9]|20)$/.test(location)) {
+        console.log('This is row B');
+      }
+      if (/^(2[1-9]|30)$/.test(location)) {
+        console.log('This is row C');
+      }
+      if (/^(3[1-9]|40)$/.test(location)) {
+        console.log('This is row D');
+      }
+      if (/^(4[1-9]|50)$/.test(location)) {
+        console.log('This is row E');
+      }
+      if (/^(5[1-9]|60)$/.test(location)) {
+        console.log('This is row F');
+      }
+      if (/^(6[1-9]|70)$/.test(location)) {
+        console.log('This is row G');
+      }
+      if (/^(7[1-9]|80)$/.test(location)) {
+        console.log('This is row H');
+      }
+      if (/^(8[1-9]|90)$/.test(location)) {
+        console.log('This is row I');
+      }
+      if (/^(9[1-9]|100)$/.test(location)) {
+        console.log('This is row J');
+      }
     }
   }
 
   const validStrike = () => {
     let strike = rs.question('Enter a Location to Strike = ');
-    let validateStrike = /^[a-c || A-C][1-3].*$/;
+    let validateStrike = /^[a-j || A-J][1-3].*$/;
     if (validateStrike.test(strike)) {
       const strikeInputs = [];
       for (let char of strike) {
@@ -90,12 +112,12 @@ while (!startGame) {
 
   rs.keyIn('Press a key to start! ');
   buildGrid(10);
-  // displayGrid();
+  displayGrid();
   totalObjectives();
   addShipObj(shipsObj);
-  console.log(randomShipLocations);
-  console.log(objectives);
-  console.log(hiddenGrid);
+  // console.log(randomShipLocations);
+  // console.log(objectives);
+  // console.log(hiddenGrid);
 }
 
 // Would have to a row and letter conditions A1 || B1
