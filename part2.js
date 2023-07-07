@@ -81,38 +81,22 @@ while (!startGame) {
       let location = randomNum();
       let direction = Boolean(Math.round(Math.random()));
       direction = direction ? 'vertical' : 'horizontal';
+    }
+  }
 
-      if (/^(10|[1-9])$/.test(location)) {
-        console.log('This is row A');
-      }
-      if (/^(1[1-9]|20)$/.test(location)) {
-        console.log('This is row B');
-      }
-      if (/^(2[1-9]|30)$/.test(location)) {
-        console.log('This is row C');
-      }
-      if (/^(3[1-9]|40)$/.test(location)) {
-        console.log('This is row D');
-      }
-      if (/^(4[1-9]|50)$/.test(location)) {
-        console.log('This is row E');
-      }
-      if (/^(5[1-9]|60)$/.test(location)) {
-        console.log('This is row F');
-      }
-      if (/^(6[1-9]|70)$/.test(location)) {
-        console.log('This is row G');
-      }
-      if (/^(7[1-9]|80)$/.test(location)) {
-        console.log('This is row H');
-      }
-      if (/^(8[1-9]|90)$/.test(location)) {
-        console.log('This is row I');
-      }
-      if (/^(9[1-9]|100)$/.test(location)) {
-        console.log('This is row J');
+  const findLocation = (number) => {
+    let tile = null;
+    for (let [property, value] of Object.entries(conditions.letters)) {
+      if (value.test(number)) {
+        spot = property.toUpperCase();
       }
     }
+    for (const [index, [property, value]] of Object.entries(conditions.numbers).entries()) {
+      if (value.test(number)) {
+        spot += index + 1;
+      }
+    }
+    return tile;
   }
 
   const placeShip = (location, direction) {
