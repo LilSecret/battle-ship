@@ -81,6 +81,8 @@ while (!startGame) {
       let location = randomNum();
       let direction = Boolean(Math.round(Math.random()));
       direction = direction ? 'vertical' : 'horizontal';
+
+
     }
   }
 
@@ -88,12 +90,14 @@ while (!startGame) {
     let tile = null;
     for (let [property, value] of Object.entries(conditions.letters)) {
       if (value.test(number)) {
-        spot = property.toUpperCase();
+        tile = property.toUpperCase();
+        break;
       }
     }
     for (const [index, [property, value]] of Object.entries(conditions.numbers).entries()) {
       if (value.test(number)) {
-        spot += index + 1;
+        tile += index + 1;
+        break;
       }
     }
     return tile;
