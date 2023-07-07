@@ -25,13 +25,6 @@ while (!startGame) {
       }
     }
   }
-  
-  const changeGrid = (letter) => {
-    grid['row' + letter] = letter + ' |';
-    for (let i = 0; i < ships.length; i++) {
-      grid['row' + letter] += ' ' + ships[i] + ' |' ;
-    }
-  }
 
   const displayGrid = (grid) => {
     let topNumbers = '   ';
@@ -100,7 +93,7 @@ while (!startGame) {
   buildGrid(10);
   displayGrid(userGrid);
   // totalObjectives();
-  // addShipObj(shipsObj);
+  addShipObj(shipsObj);
 }
 
 // Would have to a row and letter conditions A1 || B1
