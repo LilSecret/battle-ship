@@ -12,15 +12,17 @@ while (!startGame) {
   let objectives = 0;
   let points = 0;
 
+  const hiddenGrid = {};
   const userGrid = {};
 
-  const buildGrid = (amount, grid) => {
-    grid.numbers = '  ';
-    for (let i = 1; i < amount + 1; i++) {
-      grid.numbers += ('  ' + i + ' ');
-    }
+  const buildGrid = (amount) => {
     for (let i = 0; i < amount; i++) {
-      grid['row' + letters[i]] = letters[i] + ' |   |   |   |   |   |   |   |   |   |   |';
+      hiddenGrid['row' + letters[i]] = [];
+      userGrid['row' + letters[i]] = [];
+      for (let j = 0; j < amount; j++) {
+        hiddenGrid['row' + letters[i]].push(' ');
+        userGrid['row' + letters[i]].push(' ');
+      }
     }
   }
   
@@ -51,7 +53,7 @@ while (!startGame) {
       let location = randomNum();
       let direction = Boolean(Math.round(Math.random()));
       direction = direction ? 'vertical' : 'horizontal';
-      console.log(location);
+      
       if (/^(10|[1-9])$/.test(location)) {
         console.log('This is row A');
       }
@@ -86,8 +88,8 @@ while (!startGame) {
   }
 
   rs.keyIn('Press a key to start! ');
-  buildGrid(10, userGrid);
-  displayGrid(userGrid);
+  buildGrid(10);
+  // displayGrid();
   // totalObjectives();
   // addShipObj(shipsObj);
 }
