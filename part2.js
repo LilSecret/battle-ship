@@ -34,14 +34,17 @@ while (!startGame) {
   }
 
   const displayGrid = (grid) => {
-    let topNumbers = ' ';
-    for (let i = 0; i < letters.length; i++) {
-      topNumbers += ' ' + i + ' ';
+    let topNumbers = '   ';
+    for (let i = 1; i < letters.length + 1; i++) {
+      topNumbers += '  ' + i + ' ';
     }
     console.log(topNumbers)
     for (let [property, value] of Object.entries(grid)) {
-      console.log(property);
-      console.log(value);
+      let letterLine = ' ' + property.charAt(3) + ' | ';
+      for (let j = 0; j < value.length; j++) {
+        letterLine += value[j] + ' | ';
+      }
+      console.log(letterLine);
       console.log('--------------------------------------------');
     }
   }
