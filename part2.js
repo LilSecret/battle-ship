@@ -12,6 +12,32 @@ while (!startGame) {
   let objectives = 0;
   let points = 0;
 
+  const conditions = {
+    letters: {
+      a: /^(10|[1-9])$/,
+      b: /^(1[1-9]|20)$/,
+      c: /^(2[1-9]|30)$/,
+      d: /^(3[1-9]|40)$/,
+      e: /^(4[1-9]|50)$/,
+      f: /^(5[1-9]|60)$/,
+      g: /^(6[1-9]|70)$/,
+      h: /^(7[1-9]|80)$/,
+      i: /^(8[1-9]|90)$/,
+      j: /^(9[1-9]|100)$/,
+    },
+    numbers: {
+      one: /^(1|[2-9]1)*$/,
+      two: /^(2|[2-9]2)*$/,
+      three: /^(3|[2-9]3)*$/,
+      four: /^(4|[2-9]4)*$/,
+      five: /^(5|[2-9]5)*$/,
+      six: /^(6|[2-9]6)*$/,
+      seven: /^(7|[2-9]7)*$/,
+      eight: /^(8|[2-9]8)*$/,
+      nine: /^(9|[2-9]9)*$/,
+      ten: /^(100|[1-9]0)*$/,
+    },
+  }
   const hiddenGrid = {};
   const userGrid = {};
 
@@ -52,26 +78,6 @@ while (!startGame) {
 
   const addShipObj = (ships) => {
     for (let ship of ships) {
-      const a = /^(10|[1-9])$/;
-      const b = /^(1[1-9]|20)$/;
-      const c = /^(2[1-9]|30)$/;
-      const d = /^(3[1-9]|40)$/;
-      const e = /^(4[1-9]|50)$/;
-      const f = /^(5[1-9]|60)$/;
-      const g = /^(6[1-9]|70)$/;
-      const h = /^(7[1-9]|80)$/;
-      const i = /^(8[1-9]|90)$/;
-      const j = /^(9[1-9]|100)$/;
-      const one = /^(1|[2-9]1)*$/;
-      const two = /^(2|[2-9]2)*$/;
-      const three = /^(3|[2-9]3)*$/;
-      const four = /^(4|[2-9]4)*$/;
-      const five = /^(5|[2-9]5)*$/;
-      const six = /^(6|[2-9]6)*$/;
-      const seven = /^(7|[2-9]7)*$/;
-      const eight = /^(8|[2-9]8)*$/;
-      const nine = /^(9|[2-9]9)*$/;
-      const ten = /^(100|[1-9]0)*$/;
       let location = randomNum();
       let direction = Boolean(Math.round(Math.random()));
       direction = direction ? 'vertical' : 'horizontal';
