@@ -52,10 +52,30 @@ while (!startGame) {
 
   const addShipObj = (ships) => {
     for (let ship of ships) {
+      const a = /^(10|[1-9])$/;
+      const b = /^(1[1-9]|20)$/;
+      const c = /^(2[1-9]|30)$/;
+      const d = /^(3[1-9]|40)$/;
+      const e = /^(4[1-9]|50)$/;
+      const f = /^(5[1-9]|60)$/;
+      const g = /^(6[1-9]|70)$/;
+      const h = /^(7[1-9]|80)$/;
+      const i = /^(8[1-9]|90)$/;
+      const j = /^(9[1-9]|100)$/;
+      const one = /^(1|[2-9]1)*$/;
+      const two = /^(2|[2-9]2)*$/;
+      const three = /^(3|[2-9]3)*$/;
+      const four = /^(4|[2-9]4)*$/;
+      const five = /^(5|[2-9]5)*$/;
+      const six = /^(6|[2-9]6)*$/;
+      const seven = /^(7|[2-9]7)*$/;
+      const eight = /^(8|[2-9]8)*$/;
+      const nine = /^(9|[2-9]9)*$/;
+      const ten = /^(100|[1-9]0)*$/;
       let location = randomNum();
       let direction = Boolean(Math.round(Math.random()));
       direction = direction ? 'vertical' : 'horizontal';
-      
+
       if (/^(10|[1-9])$/.test(location)) {
         console.log('This is row A');
       }
@@ -87,6 +107,10 @@ while (!startGame) {
         console.log('This is row J');
       }
     }
+  }
+
+  const placeShip = (location, direction) {
+
   }
 
   rs.keyIn('Press a key to start! ');
