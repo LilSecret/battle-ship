@@ -34,7 +34,13 @@ while (!startGame) {
   }
 
   const displayGrid = (grid) => {
+    let topNumbers = ' ';
+    for (let i = 0; i < letters.length; i++) {
+      topNumbers += ' ' + i + ' ';
+    }
+    console.log(topNumbers)
     for (let [property, value] of Object.entries(grid)) {
+      console.log(property);
       console.log(value);
       console.log('--------------------------------------------');
     }
@@ -89,7 +95,7 @@ while (!startGame) {
 
   rs.keyIn('Press a key to start! ');
   buildGrid(10);
-  // displayGrid();
+  displayGrid(userGrid);
   // totalObjectives();
   // addShipObj(shipsObj);
 }
