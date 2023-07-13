@@ -27,14 +27,14 @@ while (!startGame) {
     },
     numbers: {
       one: /^(1|[1-9]1)*$/,
-      two: /^([1-9]2)*$/,
-      three: /^([1-9]3)*$/,
-      four: /^([1-9]4)*$/,
-      five: /^([1-9]5)*$/,
-      six: /^([1-9]6)*$/,
-      seven: /^([1-9]7)*$/,
-      eight: /^([1-9]8)*$/,
-      nine: /^([1-9]9)*$/,
+      two: /^(2|[1-9]2)*$/,
+      three: /^(3|[1-9]3)*$/,
+      four: /^(4|[1-9]4)*$/,
+      five: /^(5|[1-9]5)*$/,
+      six: /^(6|[1-9]6)*$/,
+      seven: /^(7|[1-9]7)*$/,
+      eight: /^(8|[1-9]8)*$/,
+      nine: /^(9|[1-9]9)*$/,
       ten: /^(100|[1-9]0)*$/,
     },
   }
@@ -86,16 +86,17 @@ while (!startGame) {
       direction = direction ? 'vertical' : 'horizontal';
       console.log(direction);
 
-      if (direction === 'horizontal') {
-        for (let i = number; i < ship.length; i++) {
-          if (userGrid['row' + letter][i]) {
-            userGrid['row' + letter][i] = 'O';
-          }
-          if (!userGrid['row' + letter][i]) {
-            userGrid['row' + letter][ship.length - i] = 'O';
-          }
-        }
-      }
+      // if (direction === 'horizontal') {
+      //   for (let i = 0; i < ship.length; i++) {
+      //     if (userGrid['row' + letter][number]) {
+      //       userGrid['row' + letter][number] = 'O';
+      //     }
+      //     if (!userGrid['row' + letter][i]) {
+      //       userGrid['row' + letter][ship.length - i] = 'O';
+      //     }
+      //     number++;
+      //   }
+      // }
     }
   }
 
