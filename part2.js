@@ -89,9 +89,7 @@ while (!startGame) {
     let letter = randomLocation.charAt(0);
     let number = findLocationNum(randomLocation) - 1;
     let startingPos = number;
-    let direction = Boolean(Math.round(Math.random()));
-    direction = direction ? 'vertical' : 'horizontal';
-    console.log(direction);
+    let direction = randomDirection();
 
     if (direction === 'horizontal') {
       for (let i = 0; i < ship.length; i++) {
@@ -129,6 +127,10 @@ while (!startGame) {
       return location.charAt(1) + location.charAt(2);
     }
     return location.charAt(1);
+  }
+
+  const randomDirection = () => {
+    return Boolean(Math.round(Math.random())) ? 'vertical' : 'horizontal';
   }
 
   rs.keyIn('Press a key to start! ');
