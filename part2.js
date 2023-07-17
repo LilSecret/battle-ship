@@ -41,7 +41,7 @@ while (!startGame) {
   const hiddenGrid = {};
   const userGrid = {};
 
-  const buildGrid = (amount) => {
+  const buildGrids = (amount) => {
     for (let i = 0; i < amount; i++) {
       hiddenGrid['row' + letters[i]] = [];
       userGrid['row' + letters[i]] = [];
@@ -74,7 +74,7 @@ while (!startGame) {
     }
   }
 
-  const randomNum = () => Math.floor(Math.random() * 100) + 1;
+  const randomNumOf100 = () => Math.floor(Math.random() * 100) + 1;
 
   const addShipObjectives = (ships) => {
     for (let ship of ships) {
@@ -83,15 +83,15 @@ while (!startGame) {
   }
 
   const placeShip = (ship) => {
-    let location = findLocation(randomNum());
-    console.log(location);
+    let randomLocation = findLocation(randomNumOf100());
+    console.log(randomLocation);
     console.log(ship.length);
-    let letter = location.charAt(0);
+    let letter = randomLocation.charAt(0);
     let number = null;
-    if (location.length === 3) {
-      number = location.charAt(1) + location.charAt(2);
+    if (randomLocation.length === 3) {
+      number = randomLocation.charAt(1) + randomLocation.charAt(2);
     } else {
-      number = location.charAt(1);
+      number = randomLocation.charAt(1);
     }
     number = number - 1;
     let startingPos = number;
@@ -131,7 +131,7 @@ while (!startGame) {
   }
 
   rs.keyIn('Press a key to start! ');
-  buildGrid(10);
+  buildGrids(10);
   // displayGrid(userGrid);
   // totalObjectives();
   addShipObjectives(shipsObj);
