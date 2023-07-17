@@ -7,7 +7,7 @@ while (!startGame) {
 
   const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
   const shipsObj = ['OO', 'OOO', 'OOO', 'OOOO', 'OOOOO'];
-  const randomShipLocations = [];
+  const randomStartingPositions = [];
   const userStrikes = [];
   let objectives = 0;
   let points = 0;
@@ -53,11 +53,11 @@ while (!startGame) {
   }
 
   const displayGrid = (grid) => {
-    let topNumbers = '   ';
+    let topBorder = '   ';
     for (let i = 1; i < letters.length + 1; i++) {
-      topNumbers += '  ' + i + ' ';
+      topBorder += '  ' + i + ' ';
     }
-    console.log(topNumbers)
+    console.log(topBorder);
     for (let [property, value] of Object.entries(grid)) {
       let letterLine = ' ' + property.charAt(3) + ' | ';
       for (let j = 0; j < value.length; j++) {
@@ -78,25 +78,38 @@ while (!startGame) {
 
   const addShipObjectives = (ships) => {
     for (let ship of ships) {
-      const location = findLocation(randomNum());
-      console.log(location);
-      let letter = location.charAt(0);
-      let number = location.charAt(1);
-      let direction = Boolean(Math.round(Math.random()));
-      direction = direction ? 'vertical' : 'horizontal';
-      console.log(direction);
+      placeShip(ship);
+    }
+  }
 
-      // if (direction === 'horizontal') {
-      //   for (let i = 0; i < ship.length; i++) {
-      //     if (userGrid['row' + letter][number]) {
-      //       userGrid['row' + letter][number] = 'O';
-      //     }
-      //     if (!userGrid['row' + letter][i]) {
-      //       userGrid['row' + letter][ship.length - i] = 'O';
-      //     }
-      //     number++;
-      //   }
-      // }
+  const placeShip = (ship) => {
+    let location = findLocation(randomNum());
+    console.log(location);
+    console.log(ship.length);
+    let letter = location.charAt(0);
+    let number = null;
+    if (location.length === 3) {
+      number = location.charAt(1) + location.charAt(2);
+    } else {
+      number = location.charAt(1);
+    }
+    number = number - 1;
+    let startingPos = number;
+    let direction = Boolean(Math.round(Math.random()));
+    direction = direction ? 'vertical' : 'horizontal';
+    console.log(direction);
+
+    if (direction === 'horizontal') {
+      for (let i = 0; i < ship.length; i++) {
+        if (hiddenGrid['row' + letter].includes(hiddenGrid['row' + letter][number])) {
+          hiddenGrid['row' + letter][number] = 'O';
+        }
+        if (!hiddenGrid['row' + letter].includes(hiddenGrid['row' + letter][number])) {
+          startingPos--;
+          hiddenGrid['row' + letter][startingPos] = 'O';
+        }
+        number++;
+      }
     }
   }
 
@@ -119,10 +132,10 @@ while (!startGame) {
 
   rs.keyIn('Press a key to start! ');
   buildGrid(10);
-  displayGrid(userGrid);
+  // displayGrid(userGrid);
   // totalObjectives();
   addShipObjectives(shipsObj);
-  displayGrid(userGrid);
+  displayGrid(hiddenGrid);
 }
 
 // Would have to a row and letter conditions A1 || B1
