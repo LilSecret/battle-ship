@@ -87,13 +87,7 @@ while (!startGame) {
     console.log(randomLocation);
     console.log(ship.length);
     let letter = randomLocation.charAt(0);
-    let number = null;
-    if (randomLocation.length === 3) {
-      number = randomLocation.charAt(1) + randomLocation.charAt(2);
-    } else {
-      number = randomLocation.charAt(1);
-    }
-    number = number - 1;
+    let number = findLocationNum(randomLocation) - 1;
     let startingPos = number;
     let direction = Boolean(Math.round(Math.random()));
     direction = direction ? 'vertical' : 'horizontal';
@@ -128,6 +122,13 @@ while (!startGame) {
       }
     }
     return tile;
+  }
+
+  const findLocationNum = (location) => {
+    if (location.length === 3) {
+      return location.charAt(1) + location.charAt(2);
+    }
+    return location.charAt(1);
   }
 
   rs.keyIn('Press a key to start! ');
