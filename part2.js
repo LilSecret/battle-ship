@@ -84,25 +84,45 @@ while (!startGame) {
 
   const placeShip = (ship) => {
     let randomLocation = findLocation(randomNumOf100());
-    console.log(randomLocation);
-    console.log(ship.length);
     let letter = randomLocation.charAt(0);
     let number = findLocationNum(randomLocation) - 1;
     let startingPos = number;
     let direction = randomDirection();
+    let isAreaCleared = shipAreaClear(ship, direction, letter, number);
 
-    if (direction === 'horizontal') {
-      for (let i = 0; i < ship.length; i++) {
-        if (hiddenGrid['row' + letter].includes(hiddenGrid['row' + letter][number])) {
-          hiddenGrid['row' + letter][number] = 'O';
+    // if (isAreaCleared) {
+      if (direction === 'horizontal') {
+        for (let i = 0; i < ship.length; i++) {
+          if (hiddenGrid['row' + letter].includes(hiddenGrid['row' + letter][number])) {
+            hiddenGrid['row' + letter][number] = 'O';
+          }
+          if (!hiddenGrid['row' + letter].includes(hiddenGrid['row' + letter][number])) {
+            startingPos--;
+            hiddenGrid['row' + letter][startingPos] = 'O';
+          }
+          number++;
         }
-        if (!hiddenGrid['row' + letter].includes(hiddenGrid['row' + letter][number])) {
-          startingPos--;
-          hiddenGrid['row' + letter][startingPos] = 'O';
-        }
-        number++;
       }
-    }
+      if (direction === 'vertical') {
+        let letterIndex = letters.indexOf(letter);
+        let startingIndex = letterIndex;
+        for (let i = 0; i < ship.length; i++) {
+          if (hiddenGrid.hasOwnProperty('row' + letters[letterIndex])) {
+            hiddenGrid['row' + letters[letterIndex]][number] = 'O';
+          }
+          if (!hiddenGrid.hasOwnProperty('row' + letters[letterIndex])) {
+            startingIndex--;
+            hiddenGrid['row' + letters[startingIndex]][number] = 'O';
+          }
+          letterIndex++;
+        }
+      }
+    // } else {
+    //   placeShip(ship);
+    // }
+    console.log(randomLocation);
+    console.log(ship.length);
+    console.log(direction);
   }
 
   const findLocation = (number) => {
@@ -129,8 +149,32 @@ while (!startGame) {
     return location.charAt(1);
   }
 
-  const randomDirection = () => {
-    return Boolean(Math.round(Math.random())) ? 'vertical' : 'horizontal';
+  const randomDirection = () => Boolean(Math.round(Math.random())) ? 'vertical' : 'horizontal';
+
+  const shipAreaClear = (ship, direction, letter, number) => {
+    let startingPos = number - 1;
+    let areaCleared;
+    if (direction === 'horizontal') {
+      let gridRow = hiddenGrid['row' + letter];
+      for (let i = 0; i < ship.length; i++) {
+        if (gridRow.includes(gridRow[number]) && gridRow[number] != 'O') {
+          areaCleared = true;
+        }
+        else if (!gridRow.includes(gridRow[number]) && gridRow[startingPos] != 'O') {
+          areaCleared = true;
+        } 
+        else {
+          areaCleared = false;
+        }
+        number++;
+      }
+    }
+    if (direction === 'vertical') {
+      for(let property of Object.entries(hiddenGrid)) {
+
+      }
+    }
+    return areaCleared;
   }
 
   rs.keyIn('Press a key to start! ');
