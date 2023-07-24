@@ -92,13 +92,14 @@ while (!startGame) {
     let isAreaCleared = shipAreaClear(ship, direction, letter, point, formerPoint, index, formerIndex);
 
     if (isAreaCleared) {
+      console.log(`${randomLocation} ${ship.length} ${direction}`);
       if (direction === 'horizontal') {
         for (let i = 0; i < ship.length; i++) {
           if (hiddenGrid['row' + letter].includes(hiddenGrid['row' + letter][point])) {
             hiddenGrid['row' + letter][point] = 'O';
             point++;
           }
-          if (!hiddenGrid['row' + letter].includes(hiddenGrid['row' + letter][point])) {
+          else if (!hiddenGrid['row' + letter].includes(hiddenGrid['row' + letter][point])) {
             hiddenGrid['row' + letter][formerPoint] = 'O';
             formerPoint--;
           }
@@ -110,7 +111,7 @@ while (!startGame) {
             hiddenGrid['row' + letters[index]][point] = 'O';
             index++;
           }
-          if (!hiddenGrid.hasOwnProperty('row' + letters[index])) {
+          else if (!hiddenGrid.hasOwnProperty('row' + letters[index])) {
             hiddenGrid['row' + letters[formerIndex]][point] = 'O';
             formerIndex--;
           }
@@ -119,9 +120,6 @@ while (!startGame) {
     } else {
       placeShip(ship);
     }
-    console.log(randomLocation);
-    console.log(ship.length);
-    console.log(direction);
   }
 
   const findLocation = (number) => {
@@ -150,8 +148,7 @@ while (!startGame) {
 
   const randomDirection = () => Boolean(Math.round(Math.random())) ? 'vertical' : 'horizontal';
 
-  const shipAreaClear = (ship, direction, letter, point, formerPos, index) => {
-    let formerIndex = index - 1;
+  const shipAreaClear = (ship, direction, letter, point, formerPos, index, formerIndex) => {
     let areaCleared;
     if (direction === 'horizontal') {
       for (let i = 0; i < ship.length; i++) {
