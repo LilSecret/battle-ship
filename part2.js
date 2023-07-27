@@ -91,8 +91,8 @@ while (!startGame) {
     let direction = randomDirection();
     let isAreaCleared = shipAreaClear(ship, direction, letter, point, formerPoint, index, formerIndex);
 
+    console.log(`Location: ${randomLocation}, Ship size: ${ship.length}, Direction: ${direction}`);
     if (isAreaCleared) {
-      console.log(`${randomLocation} ${ship.length} ${direction}`);
       if (direction === 'horizontal') {
         for (let i = 0; i < ship.length; i++) {
           if (hiddenGrid['row' + letter].includes(hiddenGrid['row' + letter][point])) {
@@ -148,34 +148,36 @@ while (!startGame) {
 
   const randomDirection = () => Boolean(Math.round(Math.random())) ? 'vertical' : 'horizontal';
 
-  const shipAreaClear = (ship, direction, letter, point, formerPos, index, formerIndex) => {
+  const shipAreaClear = (ship, direction, letter, point, formerPoint, index, formerIndex) => {
     let areaCleared;
     if (direction === 'horizontal') {
-      for (let i = 0; i < ship.length; i++) {
-        if (hiddenGrid['row' + letter].includes(hiddenGrid['row' + letter][point]) && hiddenGrid['row' + letter][point] != 'O') {
+      for (let unit of ship) {
+        if (hiddenGrid['row' + letter][point] != 'O') {
           areaCleared = true;
           point++;
         }
-        else if (!hiddenGrid['row' + letter].includes(hiddenGrid['row' + letter][point]) && hiddenGrid['row' + letter][formerPos] != 'O') {
+        else if (hiddenGrid['row' + letter][formerPoint] != 'O') {
           areaCleared = true;
-          formerPos--;
+          formerPoint--;
         } 
         else {
           areaCleared = false;
+          break;
         }
       }
     }
     if (direction === 'vertical') {
-      for (let i = 0; i < ship.length; i++) {
-        if (hiddenGrid.hasOwnProperty(hiddenGrid['row' + letters[index]]) && hiddenGrid['row' + letters[index]][point] != 'O') {
+      for (let unit of ship) {
+        if (hiddenGrid['row' + letters[index]][point] != 'O') {
           areaCleared = true;
           index++;
         }
-        else if(!hiddenGrid.hasOwnProperty(hiddenGrid['row' + letters[index]]) && hiddenGrid['row' + letters[formerIndex]][point] != 'O') {
+        else if(hiddenGrid['row' + letters[formerIndex]][point] != 'O') {
           areaCleared = true;
           formerIndex--;
         } else {
           areaCleared = false;
+          break;
         }
       }
     }
