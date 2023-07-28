@@ -87,7 +87,7 @@ while (!startGame) {
     let point = findLocationNum(randomLocation) - 1;
     let formerPoint = point - 1;
     let index = letters.indexOf(letter);
-    let formerIndex = index - 1;
+    let formerIndex = getFormerIndex(index);
     let direction = randomDirection();
     let isAreaCleared = shipAreaClear(ship, direction, letter, point, formerPoint, index, formerIndex);
 
@@ -147,6 +147,14 @@ while (!startGame) {
   }
 
   const randomDirection = () => Boolean(Math.round(Math.random())) ? 'vertical' : 'horizontal';
+
+  const getFormerIndex = (index) => {
+    if (index === 0) {
+      return 9;
+    } else {
+      return index - 1;
+    }
+  }
 
   const shipAreaClear = (ship, direction, letter, point, formerPoint, index, formerIndex) => {
     let areaCleared;
