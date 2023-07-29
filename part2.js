@@ -91,8 +91,8 @@ while (!startGame) {
     let direction = randomDirection();
     let isAreaCleared = shipAreaClear(ship, direction, letter, point, formerPoint, index, formerIndex);
 
-    console.log(`Location: ${randomLocation}, Ship size: ${ship.length}, Direction: ${direction}`);
     if (isAreaCleared) {
+      console.log(`Location: ${randomLocation}, Ship size: ${ship.length}, Direction: ${direction}`);
       if (direction === 'horizontal') {
         for (let i = 0; i < ship.length; i++) {
           if (hiddenGrid['row' + letter].includes(hiddenGrid['row' + letter][point])) {
@@ -160,11 +160,11 @@ while (!startGame) {
     let areaCleared;
     if (direction === 'horizontal') {
       for (let unit of ship) {
-        if (hiddenGrid['row' + letter][point] != 'O') {
+        if (hiddenGrid['row' + letter][point] === ' ') {
           areaCleared = true;
           point++;
         }
-        else if (hiddenGrid['row' + letter][formerPoint] != 'O') {
+        else if (hiddenGrid['row' + letter][formerPoint] === ' ') {
           areaCleared = true;
           formerPoint--;
         } 
@@ -176,17 +176,15 @@ while (!startGame) {
     }
     if (direction === 'vertical') {
       for (let unit of ship) {
-        if (hiddenGrid['row' + letters[index]][point] != 'O') {
+        if (hiddenGrid['row' + letters[index]][point] === ' ') {
           areaCleared = true;
-          index++;
-        }
-        else if(hiddenGrid['row' + letters[formerIndex]][point] != 'O') {
+        } else if (hiddenGrid['row' + letters[formerIndex]][point] === ' ') {
           areaCleared = true;
-          formerIndex--;
+          formerIndex -= 1;
         } else {
           areaCleared = false;
-          break;
         }
+        index += 1;
       }
     }
     return areaCleared;
