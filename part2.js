@@ -195,6 +195,24 @@ while (!startGame) {
   }
 
   const validateStrikeCondition = () => new RegExp(`^[${letters[0]}-${letters[letters.length - 1]}]([${1}-${size - 1}]|10)$`);
+
+  const validStrike = () => {
+    const strike = rs.question('Enter a Location to Strike = ');
+    const letter = strike.charAt(0).toUpperCase(); 
+    const number = +strike.charAt(1);
+    const validateStrike = validateStrikeCondition();
+    if (validateStrike.test(letter + number)) {
+      if (userStrikes.includes(letter + number)) {
+        console.log('You have already picked this location.');
+        validStrike();
+      } else {
+        strikeBoard(letter, number);
+      }
+    } else {
+      console.log('Invalid Input! Try Again.');
+      validStrike();
+    }
+  }
   
   rs.keyIn('Press a key to start! ');
   buildGrids(10);
