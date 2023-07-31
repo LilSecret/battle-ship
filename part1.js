@@ -149,6 +149,7 @@ while (!startGame) {
     validStrike();
   }
   if (shipsDestroyed === shipObj) {
+    console.log('You WIN!!!!');
     let game = rs.keyInYN('You have destroyed all battleships. Would you like to play again? Y/N');
     if (game) {
       startGame = false;
