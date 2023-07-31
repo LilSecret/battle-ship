@@ -157,34 +157,36 @@ while (!startGame) {
   }
 
   const shipAreaClear = (ship, direction, letter, point, formerPoint, index, formerIndex) => {
-    let areaCleared;
+    let areaCleared = true;
     if (direction === 'horizontal') {
       for (let unit of ship) {
         if (hiddenGrid['row' + letter][point] === ' ') {
-          areaCleared = true;
-          point++;
+          point+=1;
         }
         else if (hiddenGrid['row' + letter][formerPoint] === ' ') {
-          areaCleared = true;
-          formerPoint--;
+          formerPoint-=1;
         } 
         else {
-          areaCleared = false;
-          break;
+          return false;
         }
       }
     }
     if (direction === 'vertical') {
-      for (let unit of ship) {
-        if (hiddenGrid['row' + letters[index]][point] === ' ') {
-          areaCleared = true;
-        } else if (hiddenGrid['row' + letters[formerIndex]][point] === ' ') {
-          areaCleared = true;
-          formerIndex -= 1;
-        } else {
-          areaCleared = false;
+      for (let i = 0; i < ship.length; i++) {
+        if (hiddenGrid.hasOwnProperty('row' + letters[index])) {
+          if (hiddenGrid['row' + letters[index]][point] === ' ') {
+            index+=1;
+          } else {
+            return false;
+          }
         }
-        index += 1;
+        else if (!hiddenGrid.hasOwnProperty('row' + letters[index])) {
+          if (hiddenGrid['row' + letters[formerIndex]][point] === ' ') {
+            formerIndex-=1;
+          } else {
+            return false;
+          }
+        }
       }
     }
     return areaCleared;
