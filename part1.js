@@ -108,7 +108,7 @@ while (!startGame) {
 
   const validStrike = () => {
     let strike = rs.question('Enter a Location to Strike = ');
-    let validateStrike = /^[a-c || A-C][1-3].*$/;
+    let validateStrike = /^[a-c || A-C][1-3]$/;
     if (validateStrike.test(strike)) {
       let letter = strike.charAt(0).toUpperCase(); 
       let number = +strike.charAt(1);
