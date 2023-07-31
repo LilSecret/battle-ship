@@ -140,8 +140,6 @@ while (!startGame) {
       userBoard['row' + letter][number - 1] = 'M';
       logBattleshipBoard();
     }
-    // console.log(userStrikes);
-    // console.log(shipsDestroyed);
   }
 
   rs.keyIn('Press a key to start! ');
