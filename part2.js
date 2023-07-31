@@ -10,6 +10,7 @@ while (!startGame) {
   const randomStartingPositions = [];
   const userStrikes = [];
   let objectives = 0;
+  let size;
 
   const conditions = {
     letters: {
@@ -41,6 +42,7 @@ while (!startGame) {
   const userGrid = {};
 
   const buildGrids = (amount) => {
+    size = amount;
     for (let i = 0; i < amount; i++) {
       hiddenGrid['row' + letters[i]] = [];
       userGrid['row' + letters[i]] = [];
@@ -192,6 +194,8 @@ while (!startGame) {
     return areaCleared;
   }
 
+  const validateStrikeCondition = () => new RegExp(`^[${letters[0]}-${letters[letters.length - 1]}]([${1}-${size - 1}]|10)$`);
+  
   rs.keyIn('Press a key to start! ');
   buildGrids(10);
   // displayGrid(userGrid);
