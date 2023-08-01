@@ -11,6 +11,7 @@ while (!startGame) {
   const userStrikes = [];
   const attempts = 30;
   let objectives = 0;
+  let points = 0;
   let size;
 
   const conditions = {
@@ -213,6 +214,19 @@ while (!startGame) {
       console.log('Invalid Input! Try Again.');
       validStrike();
     }
+  }
+
+  const strikeBoard = (letter, number) => {
+    userStrikes.push(letter + number);
+    if (hiddenGrid['row' + letter][number - 1] === 'O') {
+      console.log('Hit! You have sunken a battleship. One ship remaining.');
+      userBoard['row' + letter][number - 1] = 'X';
+      points++;
+    } else {
+      console.log('You have missed!');
+      userBoard['row' + letter][number - 1] = 'O';
+    }
+    displayGrid(userGrid);
   }
   
   rs.keyIn('Press a key to start! ');
