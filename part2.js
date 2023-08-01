@@ -220,11 +220,11 @@ while (!startGame) {
     userStrikes.push(letter + number);
     if (hiddenGrid['row' + letter][number - 1] === 'O') {
       console.log('Hit! You have sunken a battleship. One ship remaining.');
-      userBoard['row' + letter][number - 1] = 'X';
+      userGrid['row' + letter][number - 1] = 'X';
       points++;
     } else {
       console.log('You have missed!');
-      userBoard['row' + letter][number - 1] = 'O';
+      userGrid['row' + letter][number - 1] = 'O';
     }
     displayGrid(userGrid);
   }
@@ -234,7 +234,10 @@ while (!startGame) {
   totalObjectives();
   addShipObjectives(shipsObj);
   displayGrid(userGrid);
-  displayGrid(hiddenGrid);
+  while (userStrikes.length < attempts && points < objectives){
+    validStrike();
+  }
+  // displayGrid(hiddenGrid);
 }
 
 // Would have to a row and letter conditions A1 || B1
