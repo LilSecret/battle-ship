@@ -237,6 +237,11 @@ while (!startGame) {
   while (userStrikes.length < attempts && points < objectives){
     validStrike();
   }
+  if (points === objectives) {
+    console.log('!!!!!!!!!YOU WIN!!!!!!!!!!');
+  } else {
+    console.log('You have run out of attempts. Better luck next time!');
+  }
   // displayGrid(hiddenGrid);
 }
 
