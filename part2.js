@@ -229,6 +229,16 @@ while (!startGame) {
     displayGrid(userGrid);
   }
   
+  const restartGame = () => {
+    let game = rs.keyInYN('Would You like to play again?');
+    if (game) {
+      console.log('Ohh Ya! Let\s Get it!')
+      startGame = false;
+    } else {
+      console.log('Goodbye! Thank You for playing!');
+    }
+  }
+
   rs.keyIn('Press a key to start! ');
   buildGrids(10);
   totalObjectives();
@@ -242,6 +252,7 @@ while (!startGame) {
   } else {
     console.log('You have run out of attempts. Better luck next time!');
   }
+  restartGame();
   // displayGrid(hiddenGrid);
 }
 
