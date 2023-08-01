@@ -9,6 +9,7 @@ while (!startGame) {
   const shipsObj = ['OO', 'OOO', 'OOO', 'OOOO', 'OOOOO'];
   const randomStartingPositions = [];
   const userStrikes = [];
+  const attempts = 30;
   let objectives = 0;
   let size;
 
@@ -216,9 +217,9 @@ while (!startGame) {
   
   rs.keyIn('Press a key to start! ');
   buildGrids(10);
-  // displayGrid(userGrid);
-  // totalObjectives();
+  totalObjectives();
   addShipObjectives(shipsObj);
+  displayGrid(userGrid);
   displayGrid(hiddenGrid);
 }
 
