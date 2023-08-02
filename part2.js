@@ -219,14 +219,15 @@ while (!startGame) {
   const strikeBoard = (letter, number) => {
     userStrikes.push(letter + number);
     if (hiddenGrid['row' + letter][number - 1] === 'O') {
-      console.log('Hit! You have sunken a battleship. One ship remaining.');
       userGrid['row' + letter][number - 1] = 'X';
       points++;
+      displayGrid(userGrid);
+      console.log('It\s a Hit! You\'ve destroyed a piece of a ship!');
     } else {
-      console.log('You have missed!');
       userGrid['row' + letter][number - 1] = 'O';
+      displayGrid(userGrid);
+      console.log('You have missed!');
     }
-    displayGrid(userGrid);
   }
   
   const restartGame = () => {
