@@ -96,7 +96,7 @@ while (!startGame) {
     let isAreaCleared = shipAreaClear(ship, direction, letter, point, formerPoint, index, formerIndex);
 
     if (isAreaCleared) {
-      console.log(`Location: ${randomLocation}, Ship size: ${ship.length}, Direction: ${direction}`);
+      // console.log(`Location: ${randomLocation}, Ship size: ${ship.length}, Direction: ${direction}`);
       if (direction === 'horizontal') {
         for (let i = 0; i < ship.length; i++) {
           if (hiddenGrid['row' + letter].includes(hiddenGrid['row' + letter][point])) {
