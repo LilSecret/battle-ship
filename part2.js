@@ -145,9 +145,9 @@ while (!startGame) {
 
   const findLocationNum = (location) => {
     if (location.length === 3) {
-      return location.charAt(1) + location.charAt(2);
+      return Number(location.charAt(1) + location.charAt(2));
     }
-    return location.charAt(1);
+    return +location.charAt(1);
   }
 
   const randomDirection = () => Boolean(Math.round(Math.random())) ? 'vertical' : 'horizontal';
@@ -201,7 +201,7 @@ while (!startGame) {
   const validStrike = () => {
     const strike = rs.question('Enter a Location to Strike = ');
     const letter = strike.charAt(0).toUpperCase(); 
-    const number = +strike.charAt(1);
+    const number = findLocationNum(strike);
     const validateStrike = validateStrikeCondition();
     if (validateStrike.test(letter + number)) {
       if (userStrikes.includes(letter + number)) {
