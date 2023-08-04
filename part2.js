@@ -9,7 +9,7 @@ while (!startGame) {
   const shipsObj = ['OO', 'OOO', 'OOO', 'OOOO', 'OOOOO'];
   const randomStartingPositions = [];
   const userStrikes = [];
-  const attempts = 30;
+  const attempts = 35;
   let objectives = 0;
   let points = 0;
   let size;
@@ -96,7 +96,7 @@ while (!startGame) {
     let isAreaCleared = shipAreaClear(ship, direction, letter, point, formerPoint, index, formerIndex);
 
     if (isAreaCleared) {
-      console.log(`Location: ${randomLocation}, Ship size: ${ship.length}, Direction: ${direction}`);
+      // console.log(`Location: ${randomLocation}, Ship size: ${ship.length}, Direction: ${direction}`);
       if (direction === 'horizontal') {
         for (let i = 0; i < ship.length; i++) {
           if (hiddenGrid['row' + letter].includes(hiddenGrid['row' + letter][point])) {
@@ -249,17 +249,17 @@ while (!startGame) {
   buildGrids(10);
   totalObjectives();
   addShipObjectives(shipsObj);
-  // displayGrid(userGrid);
-  // while (userStrikes.length < attempts && points < objectives){
-  //   validStrike();
-  // }
-  // if (points === objectives) {
-  //   console.log('!!!!!!!!!YOU WIN!!!!!!!!!!');
-  // } else {
-  //   console.log('You have run out of attempts. Better luck next time!');
-  // }
-  // restartGame();
-  displayGrid(hiddenGrid);
+  displayGrid(userGrid);
+  while (userStrikes.length < attempts && points < objectives){
+    validStrike();
+  }
+  if (points === objectives) {
+    console.log('!!!!!!!!!YOU WIN!!!!!!!!!!');
+  } else {
+    console.log('You have run out of attempts. Better luck next time!');
+  }
+  restartGame();
+  // displayGrid(hiddenGrid);
 }
 
 // Would have to a row and letter conditions A1 || B1
