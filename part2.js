@@ -96,7 +96,7 @@ while (!startGame) {
     let isAreaCleared = shipAreaClear(ship, direction, letter, point, formerPoint, index, formerIndex);
 
     if (isAreaCleared) {
-      // console.log(`Location: ${randomLocation}, Ship size: ${ship.length}, Direction: ${direction}`);
+      console.log(`Location: ${randomLocation}, Ship size: ${ship.length}, Direction: ${direction}`);
       if (direction === 'horizontal') {
         for (let i = 0; i < ship.length; i++) {
           if (hiddenGrid['row' + letter].includes(hiddenGrid['row' + letter][point])) {
@@ -163,15 +163,20 @@ while (!startGame) {
   const shipAreaClear = (ship, direction, letter, point, formerPoint, index, formerIndex) => {
     let areaCleared = true;
     if (direction === 'horizontal') {
-      for (let unit of ship) {
-        if (hiddenGrid['row' + letter][point] === ' ') {
-          point+=1;
+      for (let i = 0; i < ship.length; i++) {
+        if (hiddenGrid['row' + letter][point]) {
+          if (hiddenGrid['row' + letter][point] === ' ') {
+            point+=1;
+          } else {
+            return false;
+          }
         }
-        else if (hiddenGrid['row' + letter][formerPoint] === ' ') {
-          formerPoint-=1;
-        } 
-        else {
-          return false;
+        else if (!hiddenGrid['row' + letter][point]) {
+          if (hiddenGrid['row' + letter][formerPoint] === ' ') {
+            formerPoint-=1;
+          } else {
+            return false;
+          } 
         }
       }
     }
@@ -244,17 +249,17 @@ while (!startGame) {
   buildGrids(10);
   totalObjectives();
   addShipObjectives(shipsObj);
-  displayGrid(userGrid);
-  while (userStrikes.length < attempts && points < objectives){
-    validStrike();
-  }
-  if (points === objectives) {
-    console.log('!!!!!!!!!YOU WIN!!!!!!!!!!');
-  } else {
-    console.log('You have run out of attempts. Better luck next time!');
-  }
-  restartGame();
-  // displayGrid(hiddenGrid);
+  // displayGrid(userGrid);
+  // while (userStrikes.length < attempts && points < objectives){
+  //   validStrike();
+  // }
+  // if (points === objectives) {
+  //   console.log('!!!!!!!!!YOU WIN!!!!!!!!!!');
+  // } else {
+  //   console.log('You have run out of attempts. Better luck next time!');
+  // }
+  // restartGame();
+  displayGrid(hiddenGrid);
 }
 
 // Would have to a row and letter conditions A1 || B1
