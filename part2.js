@@ -40,17 +40,14 @@ while (!startGame) {
       ten: /^(100|[1-9]0)*$/,
     },
   }
-  const hiddenGrid = {};
-  const userGrid = {};
+  const grid = {};
 
-  const buildGrids = (amount) => {
+  const buildGrid = (amount) => {
     size = amount;
     for (let i = 0; i < amount; i++) {
-      hiddenGrid['row' + letters[i]] = [];
-      userGrid['row' + letters[i]] = [];
+      grid['row' + letters[i]] = [];
       for (let j = 0; j < amount; j++) {
-        hiddenGrid['row' + letters[i]].push(' ');
-        userGrid['row' + letters[i]].push(' ');
+        grid['row' + letters[i]].push(' ');
       }
     }
   }
