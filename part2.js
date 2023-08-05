@@ -52,7 +52,7 @@ while (!startGame) {
     }
   }
 
-  const displayGrid = (grid) => {
+  const displayGrid = () => {
     let topBorder = '   ';
     for (let i = 1; i < letters.length + 1; i++) {
       topBorder += '  ' + i + ' ';
@@ -96,24 +96,24 @@ while (!startGame) {
       // console.log(`Location: ${randomLocation}, Ship size: ${ship.length}, Direction: ${direction}`);
       if (direction === 'horizontal') {
         for (let i = 0; i < ship.length; i++) {
-          if (hiddenGrid['row' + letter].includes(hiddenGrid['row' + letter][point])) {
-            hiddenGrid['row' + letter][point] = 'O';
+          if (grid['row' + letter].includes(grid['row' + letter][point])) {
+            grid['row' + letter][point] = 'O';
             point++;
           }
-          else if (!hiddenGrid['row' + letter].includes(hiddenGrid['row' + letter][point])) {
-            hiddenGrid['row' + letter][formerPoint] = 'O';
+          else if (!grid['row' + letter].includes(grid['row' + letter][point])) {
+            grid['row' + letter][formerPoint] = 'O';
             formerPoint--;
           }
         }
       }
       if (direction === 'vertical') {
         for (let i = 0; i < ship.length; i++) {
-          if (hiddenGrid.hasOwnProperty('row' + letters[index])) {
-            hiddenGrid['row' + letters[index]][point] = 'O';
+          if (grid.hasOwnProperty('row' + letters[index])) {
+            grid['row' + letters[index]][point] = 'O';
             index++;
           }
-          else if (!hiddenGrid.hasOwnProperty('row' + letters[index])) {
-            hiddenGrid['row' + letters[formerIndex]][point] = 'O';
+          else if (!grid.hasOwnProperty('row' + letters[index])) {
+            grid['row' + letters[formerIndex]][point] = 'O';
             formerIndex--;
           }
         }
@@ -161,15 +161,15 @@ while (!startGame) {
     let areaCleared = true;
     if (direction === 'horizontal') {
       for (let i = 0; i < ship.length; i++) {
-        if (hiddenGrid['row' + letter][point]) {
-          if (hiddenGrid['row' + letter][point] === ' ') {
+        if (grid['row' + letter][point]) {
+          if (grid['row' + letter][point] === ' ') {
             point+=1;
           } else {
             return false;
           }
         }
-        else if (!hiddenGrid['row' + letter][point]) {
-          if (hiddenGrid['row' + letter][formerPoint] === ' ') {
+        else if (!grid['row' + letter][point]) {
+          if (grid['row' + letter][formerPoint] === ' ') {
             formerPoint-=1;
           } else {
             return false;
@@ -179,15 +179,15 @@ while (!startGame) {
     }
     if (direction === 'vertical') {
       for (let i = 0; i < ship.length; i++) {
-        if (hiddenGrid.hasOwnProperty('row' + letters[index])) {
-          if (hiddenGrid['row' + letters[index]][point] === ' ') {
+        if (grid.hasOwnProperty('row' + letters[index])) {
+          if (grid['row' + letters[index]][point] === ' ') {
             index+=1;
           } else {
             return false;
           }
         }
-        else if (!hiddenGrid.hasOwnProperty('row' + letters[index])) {
-          if (hiddenGrid['row' + letters[formerIndex]][point] === ' ') {
+        else if (!grid.hasOwnProperty('row' + letters[index])) {
+          if (grid['row' + letters[formerIndex]][point] === ' ') {
             formerIndex-=1;
           } else {
             return false;
@@ -220,14 +220,10 @@ while (!startGame) {
 
   const strikeBoard = (letter, number) => {
     userStrikes.push(letter + number);
-    if (hiddenGrid['row' + letter][number - 1] === 'O') {
-      userGrid['row' + letter][number - 1] = 'X';
+    if (grid['row' + letter][number - 1] === 'O') {
       points++;
-      displayGrid(userGrid);
       console.log('It\s a Hit! You\'ve destroyed a piece of a ship!');
     } else {
-      userGrid['row' + letter][number - 1] = 'O';
-      displayGrid(userGrid);
       console.log('You have missed!');
     }
   }
@@ -243,10 +239,10 @@ while (!startGame) {
   }
 
   rs.keyIn('Press a key to start! ');
-  buildGrids(10);
+  buildGrid(10);
   totalObjectives();
+  displayGrid();
   addShipObjectives(shipsObj);
-  displayGrid(userGrid);
   while (userStrikes.length < attempts && points < objectives){
     validStrike();
   }
@@ -256,7 +252,7 @@ while (!startGame) {
     console.log('You have run out of attempts. Better luck next time!');
   }
   restartGame();
-  // displayGrid(hiddenGrid);
+  // displayGrid();
 }
 
 // Would have to a row and letter conditions A1 || B1
