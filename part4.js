@@ -61,11 +61,12 @@ while (!startGame) {
     }
   }
 
-  const displayGrid = (grid) => {
+  const displayGrid = (grid, name) => {
     let topBorder = '   ';
     for (let i = 1; i < letters.length + 1; i++) {
       topBorder += '  ' + i + ' ';
     }
+    console.log(`-------------- ${name} ----------------`)
     console.log(topBorder);
     for (let [property, value] of Object.entries(grid)) {
       let letterLine = ' ' + property.charAt(3) + ' | ';
@@ -87,11 +88,12 @@ while (!startGame) {
 
   const addShipObjectives = (ships) => {
     for (let ship of ships) {
-      placeShip(ship);
+      placeShip(ship, hiddenGrid);
+      placeShip(ship, cpuHiddenGrid);
     }
   }
 
-  const placeShip = (ship) => {
+  const placeShip = (ship, grid) => {
     let randomLocation = findLocation(randomNumOf100());
     let letter = randomLocation.charAt(0);
     let point = findLocationNum(randomLocation) - 1;
@@ -99,37 +101,37 @@ while (!startGame) {
     let index = letters.indexOf(letter);
     let formerIndex = getFormerIndex(index);
     let direction = randomDirection();
-    let isAreaCleared = shipAreaClear(ship, direction, letter, point, formerPoint, index, formerIndex);
+    let isAreaCleared = shipAreaClear(grid, ship, direction, letter, point, formerPoint, index, formerIndex);
 
-    if (isAreaCleared) {
+    // if (isAreaCleared) {
       // console.log(`Location: ${randomLocation}, Ship size: ${ship.length}, Direction: ${direction}`);
       if (direction === 'horizontal') {
-        for (let i = 0; i < ship.length; i++) {
-          if (hiddenGrid['row' + letter].includes(hiddenGrid['row' + letter][point])) {
-            hiddenGrid['row' + letter][point] = 'O';
+        for (let unit of ship) {
+          if (grid['row' + letter].includes(grid['row' + letter][point])) {
+            grid['row' + letter][point] = 'O';
             point++;
           }
-          else if (!hiddenGrid['row' + letter].includes(hiddenGrid['row' + letter][point])) {
-            hiddenGrid['row' + letter][formerPoint] = 'O';
+          else if (!grid['row' + letter].includes(grid['row' + letter][point])) {
+            grid['row' + letter][formerPoint] = 'O';
             formerPoint--;
           }
         }
       }
       if (direction === 'vertical') {
-        for (let i = 0; i < ship.length; i++) {
-          if (hiddenGrid.hasOwnProperty('row' + letters[index])) {
-            hiddenGrid['row' + letters[index]][point] = 'O';
+        for (let unit of ship) {
+          if (grid.hasOwnProperty('row' + letters[index])) {
+            grid['row' + letters[index]][point] = 'O';
             index++;
           }
-          else if (!hiddenGrid.hasOwnProperty('row' + letters[index])) {
-            hiddenGrid['row' + letters[formerIndex]][point] = 'O';
+          else if (!grid.hasOwnProperty('row' + letters[index])) {
+            grid['row' + letters[formerIndex]][point] = 'O';
             formerIndex--;
           }
         }
       }
-    } else {
-      placeShip(ship);
-    }
+    // } else {
+    //   placeShip(ship);
+    // }
   }
 
   const findLocation = (number) => {
@@ -166,20 +168,20 @@ while (!startGame) {
     }
   }
 
-  const shipAreaClear = (ship, direction, letter, point, formerPoint, index, formerIndex) => {
+  const shipAreaClear = (grid, ship, direction, letter, point, formerPoint, index, formerIndex) => {
     let areaCleared = true;
     if (direction === 'horizontal') {
       for (let i = 0; i < ship.length; i++) {
-        if (hiddenGrid['row' + letter][point]) {
-          if (hiddenGrid['row' + letter][point] === ' ') {
-            point+=1;
+        if (grid['row' + letter][point]) {
+          if (grid['row' + letter][point] === ' ') {
+            point++;
           } else {
             return false;
           }
         }
-        else if (!hiddenGrid['row' + letter][point]) {
-          if (hiddenGrid['row' + letter][formerPoint] === ' ') {
-            formerPoint-=1;
+        else if (!grid['row' + letter][point]) {
+          if (grid['row' + letter][formerPoint] === ' ') {
+            formerPoint--;
           } else {
             return false;
           } 
@@ -188,16 +190,16 @@ while (!startGame) {
     }
     if (direction === 'vertical') {
       for (let i = 0; i < ship.length; i++) {
-        if (hiddenGrid.hasOwnProperty('row' + letters[index])) {
-          if (hiddenGrid['row' + letters[index]][point] === ' ') {
-            index+=1;
+        if (grid.hasOwnProperty('row' + letters[index])) {
+          if (grid['row' + letters[index]][point] === ' ') {
+            index++;
           } else {
             return false;
           }
         }
-        else if (!hiddenGrid.hasOwnProperty('row' + letters[index])) {
-          if (hiddenGrid['row' + letters[formerIndex]][point] === ' ') {
-            formerIndex-=1;
+        else if (!grid.hasOwnProperty('row' + letters[index])) {
+          if (grid['row' + letters[formerIndex]][point] === ' ') {
+            formerIndex--;
           } else {
             return false;
           }
@@ -255,7 +257,6 @@ while (!startGame) {
   buildGrids(10);
   totalObjectives();
   addShipObjectives(shipsObj);
-  displayGrid(userGrid);
   while (userStrikes.length < attempts && points < objectives){
     validStrike();
   }
@@ -265,7 +266,6 @@ while (!startGame) {
     console.log('You have run out of attempts. Better luck next time!');
   }
   restartGame();
-  // displayGrid(hiddenGrid);
 }
 
 // Would have to a row and letter conditions A1 || B1
