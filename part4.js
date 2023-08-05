@@ -41,16 +41,22 @@ while (!startGame) {
     },
   }
   const hiddenGrid = {};
+  const cpuHiddenGrid = {};
   const userGrid = {};
+  const cpuGrid = {};
 
   const buildGrids = (amount) => {
     size = amount;
     for (let i = 0; i < amount; i++) {
       hiddenGrid['row' + letters[i]] = [];
+      cpuHiddenGrid['row' + letters[i]] = [];
       userGrid['row' + letters[i]] = [];
+      cpuGrid['row' + letters[i]] = [];
       for (let j = 0; j < amount; j++) {
         hiddenGrid['row' + letters[i]].push(' ');
+        cpuHiddenGrid['row' + letters[i]].push(' ');
         userGrid['row' + letters[i]].push(' ');
+        cpuGrid['row' + letters[i]].push(' ');
       }
     }
   }
