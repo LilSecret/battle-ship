@@ -7,11 +7,12 @@ while (!startGame) {
 
   const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
   const shipsObj = ['OO', 'OOO', 'OOO', 'OOOO', 'OOOOO'];
-  const randomStartingPositions = [];
   const userStrikes = [];
+  const computerStrikes = [];
   const attempts = 35;
   let objectives = 0;
-  let points = 0;
+  let userPoints = 0;
+  let computerPoints = 0;
   let size;
 
   const conditions = {
@@ -159,6 +160,7 @@ while (!startGame) {
   }
 
   const randomDirection = () => Boolean(Math.round(Math.random())) ? 'vertical' : 'horizontal';
+  const flipACoin = () => Boolean(Math.round(Math.random())) ? 'heads' : 'tails';
 
   const getFormerIndex = (index) => {
     if (index === 0) {
@@ -242,7 +244,21 @@ while (!startGame) {
       console.log('You have missed!');
     }
   }
+
+  const whoGoesFirst = () => {
+    let coin = flipACoin();
+    if (coin === 'heads') {
+      game('user', 'computer');
+    } 
+    if (coin === 'tails') {
+      game('computer','user');
+    }
+  }
   
+  const game = (player1, player2) => {
+    
+  }
+
   const restartGame = () => {
     let game = rs.keyInYN('Would You like to play again?');
     if (game) {
@@ -257,14 +273,7 @@ while (!startGame) {
   buildGrids(10);
   totalObjectives();
   addShipObjectives(shipsObj);
-  while (userStrikes.length < attempts && points < objectives){
-    validStrike();
-  }
-  if (points === objectives) {
-    console.log('!!!!!!!!!YOU WIN!!!!!!!!!!');
-  } else {
-    console.log('You have run out of attempts. Better luck next time!');
-  }
+  whoGoesFirst();
   restartGame();
 }
 
