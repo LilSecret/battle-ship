@@ -9,8 +9,7 @@ while (!startGame) {
   const shipsObj = ['OO', 'OOO', 'OOO', 'OOOO', 'OOOOO'];
   const userStrikes = [];
   const computerStrikes = [];
-  const attempts = 35;
-  let objectives = 0;
+  let scoreToWin = 0;
   let userPoints = 0;
   let computerPoints = 0;
   let size;
@@ -79,15 +78,15 @@ while (!startGame) {
     }
   }
 
-  const totalObjectives = () => {
+  const getScoreToWin = () => {
     for (let ship of shipsObj) {
-      objectives += ship.length;
+      scoreToWin += ship.length;
     }
   }
 
   const randomNumOf100 = () => Math.floor(Math.random() * 100) + 1;
 
-  const addShipObjectives = (ships) => {
+  const placeShipsOnGrid = (ships) => {
     for (let ship of ships) {
       placeShip(ship, hiddenGrid);
       placeShip(ship, cpuHiddenGrid);
@@ -104,7 +103,7 @@ while (!startGame) {
     let direction = randomDirection();
     let isAreaCleared = shipAreaClear(grid, ship, direction, letter, point, formerPoint, index, formerIndex);
 
-    // if (isAreaCleared) {
+    if (isAreaCleared) {
       // console.log(`Location: ${randomLocation}, Ship size: ${ship.length}, Direction: ${direction}`);
       if (direction === 'horizontal') {
         for (let unit of ship) {
@@ -130,9 +129,9 @@ while (!startGame) {
           }
         }
       }
-    // } else {
-    //   placeShip(ship);
-    // }
+    } else {
+      placeShip(ship);
+    }
   }
 
   const findLocation = (number) => {
@@ -248,15 +247,11 @@ while (!startGame) {
   const whoGoesFirst = () => {
     let coin = flipACoin();
     if (coin === 'heads') {
-      game('user', 'computer');
+      return 'user';
     } 
     if (coin === 'tails') {
-      game('computer','user');
+      return 'computer';
     }
-  }
-  
-  const game = (player1, player2) => {
-    
   }
 
   const restartGame = () => {
@@ -271,9 +266,9 @@ while (!startGame) {
 
   rs.keyIn('Press a key to start! ');
   buildGrids(10);
-  totalObjectives();
-  addShipObjectives(shipsObj);
-  whoGoesFirst();
+  getScoreToWin();
+  placeShipsOnGrid(shipsObj);
+  const player1 = whoGoesFirst();
   restartGame();
 }
 
