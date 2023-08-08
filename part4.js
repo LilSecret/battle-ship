@@ -236,17 +236,23 @@ while (!startGame) {
     }
   }
 
-  const strikeBoard = (letter, number) => {
-    userStrikes.push(letter + number);
-    if (userHiddenGrid['row' + letter][number - 1] === 'O') {
-      userGrid['row' + letter][number - 1] = 'X';
-      points++;
-      displayGrid(userGrid, 'User Grid');
-      console.log('It\s a Hit! You\'ve destroyed a piece of a ship!');
+  const strikeBoard = (attacker, defender, letter, number) => {
+    scoreBoard[attacker + 'Strikes'].push(letter + number);
+    if (scoreBoard[defender + 'HiddenGrid']['row' + letter][number - 1] === 'O') {
+      scoreBoard[defender + 'Grid']['row' + letter][number - 1] = 'X';
+      scoreBoard[attacker + 'Points'] += 1;
+      displayGrid(scoreBoard[defender + 'Grid'], defender + '\s Grid');
+      setTimeout(
+        console.log('It\s a Hit! You\'ve destroyed a piece of a ship!'),
+        .5
+      )
     } else {
-      userGrid['row' + letter][number - 1] = 'O';
-      displayGrid(userGrid);
-      console.log('You have missed!');
+      scoreBoard[defender + 'Grid'][number - 1] = 'O';
+      displayGrid(scoreBoard[defender + 'Grid'], defender + '\s Grid');
+      setTimeout(
+        console.log('It\s a Miss!'),
+        .5
+      )
     }
   }
 
