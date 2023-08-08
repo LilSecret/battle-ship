@@ -122,7 +122,7 @@ while (!startGame) {
         }
       }
     } else {
-      placeShip(ship);
+      placeShip(ship, grid);
     }
   }
 
