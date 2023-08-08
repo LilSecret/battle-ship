@@ -7,12 +7,14 @@ while (!startGame) {
 
   const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
   const shipsObj = ['OO', 'OOO', 'OOO', 'OOOO', 'OOOOO'];
-  const players = ['user', 'cpu'];
-  const userStrikes = [];
-  const computerStrikes = [];
-  let scoreToWin = 0;
-  let userPoints = 0;
-  let computerPoints = 0;
+  const scoreBoard = {
+    players: ['user', 'cpu'],
+    userStrikes: [],
+    cpuStrikes: [],
+    scoreToWin: 0,
+    userPoints: 0,
+    cpuPoints: 0,
+  }
   let size;
 
   const conditions = {
@@ -251,16 +253,17 @@ while (!startGame) {
   const whoGoesFirst = () => {
     let coin = flipACoin();
     if (coin === 'heads') {
-      return players[0];
+      return scoreBoard.players[0];
     } 
     if (coin === 'tails') {
-      return players[1];
+      return scoreBoard.players[1];
     }
   }
 
-  const game = (player1) => {
-    players.splice(players.indexOf(player1), 1);
-    const player2 = players[0];
+  const game = () => {
+    const player1 = whoGoesFirst();
+    scoreBoard.players.splice(players.indexOf(player1), 1);
+    const player2 = scoreBoard.players[0];
   }
 
   const restartGame = () => {
@@ -277,9 +280,6 @@ while (!startGame) {
   buildGrids(10);
   getScoreToWin();
   placeShipsOnGrid(shipsObj);
-  displayGrid(userHiddenGrid, 'User Grid');
-  displayGrid(cpuHiddenGrid, 'Computer Grid');
-  const player1 = whoGoesFirst();
-  game(player1);
+  game();
   restartGame();
 }
