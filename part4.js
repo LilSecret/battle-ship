@@ -83,7 +83,7 @@ while (!startGame) {
 
   const getScoreToWin = () => {
     for (let ship of shipsObj) {
-      scoreToWin += ship.length;
+      scoreBoard.scoreToWin += ship.length;
     }
   }
 
@@ -97,7 +97,7 @@ while (!startGame) {
   }
 
   const placeShipInGrid = (ship, grid) => {
-    let randomLocation = findLocation(randomNumOf100());
+    const randomLocation = findLocation(randomNumOf100());
     let letter = randomLocation.charAt(0);
     let point = findLocationNum(randomLocation) - 1;
     let formerPoint = point - 1;
@@ -263,6 +263,18 @@ while (!startGame) {
     } 
     if (coin === 'tails') {
       return scoreBoard.players[1];
+    }
+  }
+
+  const cpuTurn = () => {
+    const randomLocation = findLocation(randomNumOf100());
+    const letter = randomLocation.charAt(0);
+    const point = findLocationNum(randomLocation) - 1;
+    if (scoreBoard.cpuStrikes.includes(letter + point)) {
+      cpuTurn();
+    } else {
+      scoreBoard.cpuStrikes.push(letter + number);
+      strikeBoard('cpu', 'user', letter, point);
     }
   }
 
