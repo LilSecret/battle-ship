@@ -7,6 +7,7 @@ while (!startGame) {
 
   const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
   const shipsObj = ['OO', 'OOO', 'OOO', 'OOOO', 'OOOOO'];
+  const players = ['user', 'cpu'];
   const userStrikes = [];
   const computerStrikes = [];
   let scoreToWin = 0;
@@ -250,11 +251,16 @@ while (!startGame) {
   const whoGoesFirst = () => {
     let coin = flipACoin();
     if (coin === 'heads') {
-      return 'user';
+      return players[0];
     } 
     if (coin === 'tails') {
-      return 'computer';
+      return players[1];
     }
+  }
+
+  const game = (player1) => {
+    players.splice(players.indexOf(player1), 1);
+    const player2 = players[0];
   }
 
   const restartGame = () => {
@@ -274,5 +280,6 @@ while (!startGame) {
   displayGrid(userHiddenGrid, 'User Grid');
   displayGrid(cpuHiddenGrid, 'Computer Grid');
   const player1 = whoGoesFirst();
+  game(player1);
   restartGame();
 }
