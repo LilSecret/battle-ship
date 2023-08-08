@@ -40,7 +40,7 @@ while (!startGame) {
       ten: /^(100|[1-9]0)*$/,
     },
   }
-  const hiddenGrid = {};
+  const userHiddenGrid = {};
   const cpuHiddenGrid = {};
   const userGrid = {};
   const cpuGrid = {};
@@ -48,12 +48,12 @@ while (!startGame) {
   const buildGrids = (amount) => {
     size = amount;
     for (let i = 0; i < amount; i++) {
-      hiddenGrid['row' + letters[i]] = [];
+      userHiddenGrid['row' + letters[i]] = [];
       cpuHiddenGrid['row' + letters[i]] = [];
       userGrid['row' + letters[i]] = [];
       cpuGrid['row' + letters[i]] = [];
       for (let j = 0; j < amount; j++) {
-        hiddenGrid['row' + letters[i]].push(' ');
+        userHiddenGrid['row' + letters[i]].push(' ');
         cpuHiddenGrid['row' + letters[i]].push(' ');
         userGrid['row' + letters[i]].push(' ');
         cpuGrid['row' + letters[i]].push(' ');
@@ -88,12 +88,12 @@ while (!startGame) {
 
   const placeShipsOnGrid = (ships) => {
     for (let ship of ships) {
-      placeShip(ship, hiddenGrid);
-      placeShip(ship, cpuHiddenGrid);
+      placeShipInGrid(ship, userHiddenGrid);
+      placeShipInGrid(ship, cpuHiddenGrid);
     }
   }
 
-  const placeShip = (ship, grid) => {
+  const placeShipInGrid = (ship, grid) => {
     let randomLocation = findLocation(randomNumOf100());
     let letter = randomLocation.charAt(0);
     let point = findLocationNum(randomLocation) - 1;
@@ -105,32 +105,36 @@ while (!startGame) {
 
     if (isAreaCleared) {
       // console.log(`Location: ${randomLocation}, Ship size: ${ship.length}, Direction: ${direction}`);
-      if (direction === 'horizontal') {
-        for (let unit of ship) {
-          if (grid['row' + letter].includes(grid['row' + letter][point])) {
-            grid['row' + letter][point] = 'O';
-            point++;
-          }
-          else if (!grid['row' + letter].includes(grid['row' + letter][point])) {
-            grid['row' + letter][formerPoint] = 'O';
-            formerPoint--;
-          }
-        }
-      }
-      if (direction === 'vertical') {
-        for (let unit of ship) {
-          if (grid.hasOwnProperty('row' + letters[index])) {
-            grid['row' + letters[index]][point] = 'O';
-            index++;
-          }
-          else if (!grid.hasOwnProperty('row' + letters[index])) {
-            grid['row' + letters[formerIndex]][point] = 'O';
-            formerIndex--;
-          }
-        }
-      }
+      placeShip(grid, ship, direction, letter, point, formerPoint, index, formerIndex);
     } else {
-      placeShip(ship);
+      placeShipInGrid(ship, grid);
+    }
+  }
+
+  const placeShip = (grid, ship, direction, letter, point, formerPoint, index, formerIndex) => {
+    if (direction === 'horizontal') {
+      for (let unit of ship) {
+        if (grid['row' + letter].includes(grid['row' + letter][point])) {
+          grid['row' + letter][point] = 'O';
+          point++;
+        }
+        else if (!grid['row' + letter].includes(grid['row' + letter][point])) {
+          grid['row' + letter][formerPoint] = 'O';
+          formerPoint--;
+        }
+      }
+    }
+    if (direction === 'vertical') {
+      for (let unit of ship) {
+        if (grid.hasOwnProperty('row' + letters[index])) {
+          grid['row' + letters[index]][point] = 'O';
+          index++;
+        }
+        else if (!grid.hasOwnProperty('row' + letters[index])) {
+          grid['row' + letters[formerIndex]][point] = 'O';
+          formerIndex--;
+        }
+      }
     }
   }
 
@@ -170,7 +174,6 @@ while (!startGame) {
   }
 
   const shipAreaClear = (grid, ship, direction, letter, point, formerPoint, index, formerIndex) => {
-    let areaCleared = true;
     if (direction === 'horizontal') {
       for (let i = 0; i < ship.length; i++) {
         if (grid['row' + letter][point]) {
@@ -180,7 +183,7 @@ while (!startGame) {
             return false;
           }
         }
-        else if (!grid['row' + letter][point]) {
+        if (!grid['row' + letter][point]) {
           if (grid['row' + letter][formerPoint] === ' ') {
             formerPoint--;
           } else {
@@ -198,7 +201,7 @@ while (!startGame) {
             return false;
           }
         }
-        else if (!grid.hasOwnProperty('row' + letters[index])) {
+        if (!grid.hasOwnProperty('row' + letters[index])) {
           if (grid['row' + letters[formerIndex]][point] === ' ') {
             formerIndex--;
           } else {
@@ -207,7 +210,7 @@ while (!startGame) {
         }
       }
     }
-    return areaCleared;
+    return true;
   }
 
   const validateStrikeCondition = () => new RegExp(`^[${letters[0]}-${letters[letters.length - 1]}]([${1}-${size - 1}]|10)$`);
@@ -232,10 +235,10 @@ while (!startGame) {
 
   const strikeBoard = (letter, number) => {
     userStrikes.push(letter + number);
-    if (hiddenGrid['row' + letter][number - 1] === 'O') {
+    if (userHiddenGrid['row' + letter][number - 1] === 'O') {
       userGrid['row' + letter][number - 1] = 'X';
       points++;
-      displayGrid(userGrid);
+      displayGrid(userGrid, 'User Grid');
       console.log('It\s a Hit! You\'ve destroyed a piece of a ship!');
     } else {
       userGrid['row' + letter][number - 1] = 'O';
@@ -268,14 +271,8 @@ while (!startGame) {
   buildGrids(10);
   getScoreToWin();
   placeShipsOnGrid(shipsObj);
+  displayGrid(userHiddenGrid, 'User Grid');
+  displayGrid(cpuHiddenGrid, 'Computer Grid');
   const player1 = whoGoesFirst();
   restartGame();
 }
-
-// Would have to a row and letter conditions A1 || B1
-// When changing ship would have to grab old and put in the new
-// can only change property method by battleshipBoard.rowA
-
-// Steps
-// Step 1 randomly place 2 ships in separate locations
-// Each Ship is 1 unit long
