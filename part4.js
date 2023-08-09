@@ -142,20 +142,20 @@ while (!startGame) {
   }
 
   const findLocation = (number) => {
-    let tile = null;
+    let spot;
     for (let [property, value] of Object.entries(conditions.letters)) {
       if (value.test(number)) {
-        tile = property.toUpperCase();
+        spot = property.toUpperCase();
         break;
       }
     }
     for (const [index, [property, value]] of Object.entries(conditions.numbers).entries()) {
       if (value.test(number)) {
-        tile += index + 1;
+        spot += index + 1;
         break;
       }
     }
-    return tile;
+    return spot;
   }
 
   const findLocationNum = (location) => {
@@ -218,21 +218,21 @@ while (!startGame) {
 
   const validateStrikeCondition = () => new RegExp(`^[${letters[0]}-${letters[letters.length - 1]}]([${1}-${size - 1}]|10)$`);
 
-  const validStrike = () => {
+  const userTurn = () => {
     const strike = rs.question('Enter a Location to Strike = ');
     const letter = strike.charAt(0).toUpperCase(); 
     const number = findLocationNum(strike);
     const validateStrike = validateStrikeCondition();
     if (validateStrike.test(letter + number)) {
-      if (userStrikes.includes(letter + number)) {
+      if (scoreBoard.userStrikes.includes(letter + number)) {
         console.log('You have already picked this location.');
-        validStrike();
+        userTurn();
       } else {
-        strikeBoard(letter, number);
+        strikeBoard('user','cpu' , letter, number);
       }
     } else {
       console.log('Invalid Input! Try Again.');
-      validStrike();
+      userTurn();
     }
   }
 
@@ -242,17 +242,11 @@ while (!startGame) {
       scoreBoard[defender + 'Grid']['row' + letter][number - 1] = 'X';
       scoreBoard[attacker + 'Points'] += 1;
       displayGrid(scoreBoard[defender + 'Grid'], defender + '\s Grid');
-      setTimeout(
-        console.log('It\s a Hit! You\'ve destroyed a piece of a ship!'),
-        .5
-      )
+      setTimeout(() => {console.log('It\s a Hit! You\'ve destroyed a piece of a ship!')}, 1000)
     } else {
       scoreBoard[defender + 'Grid'][number - 1] = 'O';
       displayGrid(scoreBoard[defender + 'Grid'], defender + '\s Grid');
-      setTimeout(
-        console.log('It\s a Miss!'),
-        .5
-      )
+      setTimeout(() => {console.log('It\s a Miss!')}, 1000);
     }
   }
 
@@ -273,15 +267,37 @@ while (!startGame) {
     if (scoreBoard.cpuStrikes.includes(letter + point)) {
       cpuTurn();
     } else {
-      scoreBoard.cpuStrikes.push(letter + number);
+      scoreBoard.cpuStrikes.push(letter + point);
       strikeBoard('cpu', 'user', letter, point);
     }
   }
 
   const game = () => {
     const player1 = whoGoesFirst();
-    scoreBoard.players.splice(players.indexOf(player1), 1);
+    scoreBoard.players.splice(scoreBoard.players.indexOf(player1), 1);
     const player2 = scoreBoard.players[0];
+    const userWin = scoreBoard.userPoints === scoreBoard.scoreToWin;
+    const cpuWin = scoreBoard.cpuPoints === scoreBoard.scoreToWin;
+    if (player1 === 'user') {
+      console.log('Ding! Looks like you go first...');
+      while (!userWin || !cpuWin) {
+        userTurn();
+        cpuTurn();
+      }
+    } 
+    if (player1 === 'cpu') {
+      console.log('Uhh Ohh! I guess the computer goes first...');
+      while (!userWin || !cpuWin) {
+        cpuTurn();
+        userTurn();
+      }
+    }
+    if (userWin) {
+      console.log('!!!!Congratulation! You Win!!!!');
+    }
+    if (cpuWin) {
+      console.log('Looks like you have lost. Better luck next time!');
+    }
   }
 
   const restartGame = () => {
