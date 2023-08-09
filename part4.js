@@ -228,7 +228,7 @@ while (!startGame) {
         console.log('You have already picked this location.');
         userTurn();
       } else {
-        strikeBoard('user','cpu' , letter, number);
+        userStrike(letter, number);
       }
     } else {
       console.log('Invalid Input! Try Again.');
@@ -236,20 +236,20 @@ while (!startGame) {
     }
   }
 
-  const strikeBoard = (attacker, defender, letter, number) => {
-    scoreBoard[attacker + 'Strikes'].push(letter + number);
-    if (scoreBoard[defender + 'HiddenGrid']['row' + letter][number - 1] === 'O') {
-      scoreBoard[defender + 'Grid']['row' + letter][number - 1] = 'X';
-      scoreBoard[attacker + 'Points'] += 1;
-      displayGrid(scoreBoard[defender + 'Grid'], defender + '\s Grid');
-      setTimeout(() => {console.log('It\s a Hit! You\'ve destroyed a piece of a ship!')}, 1000)
+  const userStrike = (letter, number) => {
+    scoreBoard.userStrikes.push(letter + number);
+    if (cpuHiddenGrid['row' + letter][number - 1] === 'O') {
+      cpuGrid['row' + letter][number - 1] = 'X';
+      scoreBoard.userPoints += 1;
+      displayGrid(cpuGrid, 'Computers Battle Grid');
+      console.log('It\s a Hit! You\'ve destroyed a piece of a ship!');
     } else {
-      scoreBoard[defender + 'Grid'][number - 1] = 'O';
-      displayGrid(scoreBoard[defender + 'Grid'], defender + '\s Grid');
-      setTimeout(() => {console.log('It\s a Miss!')}, 1000);
+      cpuGrid['row' + letter][number - 1] = 'O';
+      displayGrid(cpuGrid, 'Computers Battle Grid');
+      console.log('It\s a Miss');
     }
   }
-
+  
   const whoGoesFirst = () => {
     let coin = flipACoin();
     if (coin === 'heads') {
@@ -259,7 +259,7 @@ while (!startGame) {
       return scoreBoard.players[1];
     }
   }
-
+  
   const cpuTurn = () => {
     const randomLocation = findLocation(randomNumOf100());
     const letter = randomLocation.charAt(0);
@@ -268,7 +268,21 @@ while (!startGame) {
       cpuTurn();
     } else {
       scoreBoard.cpuStrikes.push(letter + point);
-      strikeBoard('cpu', 'user', letter, point);
+      cpuStrike(letter, point);
+    }
+  }
+
+  const cpuStrike = (letter, number) => {
+    scoreBoard.cpuStrikes.push(letter + number);
+    if (userHiddenGrid['row' + letter][number - 1] === 'O') {
+      userGrid['row' + letter][number - 1] = 'X';
+      scoreBoard.cpuPoints += 1;
+      displayGrid(userGrid, 'User\s Defending Log');
+      console.log('A piece of your ship was destroyed!');
+    } else {
+      userGrid['row' + letter][number - 1] = 'O';
+      displayGrid(userGrid, 'User\s Defending Log');
+      console.log('The CPU has missed!');
     }
   }
 
