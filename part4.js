@@ -64,13 +64,20 @@ while (!startGame) {
     }
   }
 
-  const displayGrid = (grid, name) => {
+  const displayGrid = (grid) => {
     let topBorder = '   ';
+    console.log(' ');
+    console.log(' '); 
+    if (grid === userGrid) {
+      console.log('______________  CPU\'s Strike  ______________');
+    }
+    if (grid === cpuGrid) {
+      console.log('______________  User\'s Strike  ______________');
+    }
     for (let i = 1; i < letters.length + 1; i++) {
       topBorder += '  ' + i + ' ';
     }
-    console.log(`----------- ${name} ----------------`);
-    console.log('            VVVVVVVVVVVVVVVVV       ');
+    console.log(' ');
     console.log(topBorder);
     for (let [property, value] of Object.entries(grid)) {
       let letterLine = ' ' + property.charAt(3) + ' | ';
@@ -243,15 +250,15 @@ while (!startGame) {
     if (cpuHiddenGrid['row' + letter][number - 1] === 'O') {
       cpuGrid['row' + letter][number - 1] = 'X';
       scoreBoard.userPoints += 1;
-      displayGrid(cpuGrid, 'User\'s Strike Log');
+      displayGrid(cpuGrid);
       console.log('It\'s a Hit! You\'ve destroyed a piece of a ship!');
     } else {
       cpuGrid['row' + letter][number - 1] = 'O';
-      displayGrid(cpuGrid, 'User\'s Strike Log');
+      displayGrid(cpuGrid);
       console.log('It\'s a Miss');
     }
   }
-  
+
   const whoGoesFirst = () => {
     let coin = flipACoin();
     if (coin === 'heads') {
@@ -279,11 +286,11 @@ while (!startGame) {
     if (userHiddenGrid['row' + letter][number - 1] === 'O') {
       userGrid['row' + letter][number - 1] = 'X';
       scoreBoard.cpuPoints += 1;
-      displayGrid(userGrid, 'CPU\'s Strike Log');
+      displayGrid(userGrid);
       console.log('A piece of your ship was destroyed!');
     } else {
       userGrid['row' + letter][number - 1] = 'O';
-      displayGrid(userGrid, 'User\'s Defending Log');
+      displayGrid(userGrid);
       console.log('The CPU has missed!');
     }
   }
