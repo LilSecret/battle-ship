@@ -243,12 +243,12 @@ while (!startGame) {
     if (cpuHiddenGrid['row' + letter][number - 1] === 'O') {
       cpuGrid['row' + letter][number - 1] = 'X';
       scoreBoard.userPoints += 1;
-      displayGrid(cpuGrid, 'User\s Strike Log');
-      console.log('It\s a Hit! You\'ve destroyed a piece of a ship!');
+      displayGrid(cpuGrid, 'User\'s Strike Log');
+      console.log('It\'s a Hit! You\'ve destroyed a piece of a ship!');
     } else {
       cpuGrid['row' + letter][number - 1] = 'O';
-      displayGrid(cpuGrid, 'User\s Strike Log');
-      console.log('It\s a Miss');
+      displayGrid(cpuGrid, 'User\'s Strike Log');
+      console.log('It\'s a Miss');
     }
   }
   
@@ -279,11 +279,11 @@ while (!startGame) {
     if (userHiddenGrid['row' + letter][number - 1] === 'O') {
       userGrid['row' + letter][number - 1] = 'X';
       scoreBoard.cpuPoints += 1;
-      displayGrid(userGrid, 'CPU\s Strike Log');
+      displayGrid(userGrid, 'CPU\'s Strike Log');
       console.log('A piece of your ship was destroyed!');
     } else {
       userGrid['row' + letter][number - 1] = 'O';
-      displayGrid(userGrid, 'User\s Defending Log');
+      displayGrid(userGrid, 'User\'s Defending Log');
       console.log('The CPU has missed!');
     }
   }
@@ -307,6 +307,7 @@ while (!startGame) {
       }
     }
     if (scoreBoard.userPoints === scoreBoard.scoreToWin) {
+      console.log('You have destroyed all of the ships...');
       console.log('!!!!Congratulation! You Win!!!!');
     }
     if (scoreBoard.cpuPoints === scoreBoard.scoreToWin) {
@@ -317,7 +318,7 @@ while (!startGame) {
   const restartGame = () => {
     let game = rs.keyInYN('Would You like to play again?');
     if (game) {
-      console.log('Ohh Ya! Let\s Get it!')
+      console.log('Ohh Ya! Let\'s Get it!')
       startGame = false;
     } else {
       console.log('Goodbye! Thank You for playing!');
