@@ -69,7 +69,8 @@ while (!startGame) {
     for (let i = 1; i < letters.length + 1; i++) {
       topBorder += '  ' + i + ' ';
     }
-    console.log(`-------------- ${name} ----------------`)
+    console.log(`----------- ${name} ----------------`);
+    console.log('            VVVVVVVVVVVVVVVVV       ');
     console.log(topBorder);
     for (let [property, value] of Object.entries(grid)) {
       let letterLine = ' ' + property.charAt(3) + ' | ';
@@ -219,6 +220,7 @@ while (!startGame) {
   const validateStrikeCondition = () => new RegExp(`^[${letters[0]}-${letters[letters.length - 1]}]([${1}-${size - 1}]|10)$`);
 
   const userTurn = () => {
+    console.log('It is your turn...')
     const strike = rs.question('Enter a Location to Strike = ');
     const letter = strike.charAt(0).toUpperCase(); 
     const number = findLocationNum(strike);
@@ -241,11 +243,11 @@ while (!startGame) {
     if (cpuHiddenGrid['row' + letter][number - 1] === 'O') {
       cpuGrid['row' + letter][number - 1] = 'X';
       scoreBoard.userPoints += 1;
-      displayGrid(cpuGrid, 'Computers Battle Grid');
+      displayGrid(cpuGrid, 'User\s Strike Log');
       console.log('It\s a Hit! You\'ve destroyed a piece of a ship!');
     } else {
       cpuGrid['row' + letter][number - 1] = 'O';
-      displayGrid(cpuGrid, 'Computers Battle Grid');
+      displayGrid(cpuGrid, 'User\s Strike Log');
       console.log('It\s a Miss');
     }
   }
@@ -263,7 +265,7 @@ while (!startGame) {
   const cpuTurn = () => {
     const randomLocation = findLocation(randomNumOf100());
     const letter = randomLocation.charAt(0);
-    const point = findLocationNum(randomLocation) - 1;
+    const point = findLocationNum(randomLocation);
     if (scoreBoard.cpuStrikes.includes(letter + point)) {
       cpuTurn();
     } else {
@@ -277,7 +279,7 @@ while (!startGame) {
     if (userHiddenGrid['row' + letter][number - 1] === 'O') {
       userGrid['row' + letter][number - 1] = 'X';
       scoreBoard.cpuPoints += 1;
-      displayGrid(userGrid, 'User\s Defending Log');
+      displayGrid(userGrid, 'CPU\s Strike Log');
       console.log('A piece of your ship was destroyed!');
     } else {
       userGrid['row' + letter][number - 1] = 'O';
@@ -290,26 +292,24 @@ while (!startGame) {
     const player1 = whoGoesFirst();
     scoreBoard.players.splice(scoreBoard.players.indexOf(player1), 1);
     const player2 = scoreBoard.players[0];
-    const userWin = scoreBoard.userPoints === scoreBoard.scoreToWin;
-    const cpuWin = scoreBoard.cpuPoints === scoreBoard.scoreToWin;
     if (player1 === 'user') {
       console.log('Ding! Looks like you go first...');
-      while (!userWin || !cpuWin) {
+      while (scoreBoard.userPoints != scoreBoard.scoreToWin && scoreBoard.cpuPoints != scoreBoard.scoreToWin) {
         userTurn();
         cpuTurn();
       }
     } 
     if (player1 === 'cpu') {
       console.log('Uhh Ohh! I guess the computer goes first...');
-      while (!userWin || !cpuWin) {
+      while (scoreBoard.userPoints != scoreBoard.scoreToWin && scoreBoard.cpuPoints != scoreBoard.scoreToWin) {
         cpuTurn();
         userTurn();
       }
     }
-    if (userWin) {
+    if (scoreBoard.userPoints === scoreBoard.scoreToWin) {
       console.log('!!!!Congratulation! You Win!!!!');
     }
-    if (cpuWin) {
+    if (scoreBoard.cpuPoints === scoreBoard.scoreToWin) {
       console.log('Looks like you have lost. Better luck next time!');
     }
   }
