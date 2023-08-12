@@ -4,7 +4,6 @@ let startGame;
 
 while (!startGame) {
   startGame = true;
-
   const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
   const shipsObj = ['OO', 'OOO', 'OOO', 'OOOO', 'OOOOO'];
   const scoreBoard = {
@@ -95,14 +94,14 @@ while (!startGame) {
     }
   }
 
-  const randomNumOf100 = () => Math.floor(Math.random() * 100) + 1;
-
-  const placeShipsOnGrid = (ships) => {
+  const deployShipsOnGrids = (ships) => {
     for (let ship of ships) {
       placeShipInGrid(ship, userHiddenGrid);
       placeShipInGrid(ship, cpuHiddenGrid);
     }
   }
+  
+  const randomNumOf100 = () => Math.floor(Math.random() * 100) + 1;
 
   const placeShipInGrid = (ship, grid) => {
     const randomLocation = findLocation(randomNumOf100());
@@ -110,19 +109,19 @@ while (!startGame) {
     let point = findLocationNum(randomLocation) - 1;
     let formerPoint = point - 1;
     let index = letters.indexOf(letter);
-    let formerIndex = getFormerIndex(index);
+    let formerIndex = index - 1;
     let direction = randomDirection();
     let isAreaCleared = shipAreaClear(grid, ship, direction, letter, point, formerPoint, index, formerIndex);
 
     if (isAreaCleared) {
       // console.log(`Location: ${randomLocation}, Ship size: ${ship.length}, Direction: ${direction}`);
-      placeShip(grid, ship, direction, letter, point, formerPoint, index, formerIndex);
+      deployShip(grid, ship, direction, letter, point, formerPoint, index, formerIndex);
     } else {
       placeShipInGrid(ship, grid);
     }
   }
 
-  const placeShip = (grid, ship, direction, letter, point, formerPoint, index, formerIndex) => {
+  const deployShip = (grid, ship, direction, letter, point, formerPoint, index, formerIndex) => {
     if (direction === 'horizontal') {
       for (let unit of ship) {
         if (grid['row' + letter].includes(grid['row' + letter][point])) {
@@ -174,15 +173,7 @@ while (!startGame) {
   }
 
   const randomDirection = () => Boolean(Math.round(Math.random())) ? 'vertical' : 'horizontal';
-  const flipACoin = () => Boolean(Math.round(Math.random())) ? 'heads' : 'tails';
-
-  const getFormerIndex = (index) => {
-    if (index === 0) {
-      return 9;
-    } else {
-      return index - 1;
-    }
-  }
+  const flipACoin = () => Boolean(Math.round(Math.random())) ? scoreBoard.players[0] : scoreBoard.players[1];
 
   const shipAreaClear = (grid, ship, direction, letter, point, formerPoint, index, formerIndex) => {
     if (direction === 'horizontal') {
@@ -257,18 +248,9 @@ while (!startGame) {
       displayGrid(cpuGrid);
       console.log('It\'s a Miss');
     }
+    console.log(' ');
   }
 
-  const whoGoesFirst = () => {
-    let coin = flipACoin();
-    if (coin === 'heads') {
-      return scoreBoard.players[0];
-    } 
-    if (coin === 'tails') {
-      return scoreBoard.players[1];
-    }
-  }
-  
   const cpuTurn = () => {
     const randomLocation = findLocation(randomNumOf100());
     const letter = randomLocation.charAt(0);
@@ -293,12 +275,11 @@ while (!startGame) {
       displayGrid(userGrid);
       console.log('The CPU has missed!');
     }
+    console.log(' ');
   }
 
   const game = () => {
-    const player1 = whoGoesFirst();
-    scoreBoard.players.splice(scoreBoard.players.indexOf(player1), 1);
-    const player2 = scoreBoard.players[0];
+    const player1 = flipACoin();
     if (player1 === 'user') {
       console.log('Ding! Looks like you go first...');
       while (scoreBoard.userPoints != scoreBoard.scoreToWin && scoreBoard.cpuPoints != scoreBoard.scoreToWin) {
@@ -318,6 +299,7 @@ while (!startGame) {
       console.log('!!!!Congratulation! You Win!!!!');
     }
     if (scoreBoard.cpuPoints === scoreBoard.scoreToWin) {
+      console.log('The CPU has destroyed all your ships')
       console.log('Looks like you have lost. Better luck next time!');
     }
   }
@@ -335,7 +317,7 @@ while (!startGame) {
   rs.keyIn('Press a key to start! ');
   buildGrids(10);
   getScoreToWin();
-  placeShipsOnGrid(shipsObj);
+  deployShipsOnGrids(shipsObj);
   game();
   restartGame();
 }
