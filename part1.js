@@ -142,7 +142,7 @@ while (!startGame) {
     }
   }
 
-  rs.keyIn('Press a key to start! ');
+  rs.keyIn('Press any key to start the game! ');
   randomShips(2);
   logBattleshipBoard();
   while (userStrikes.length < 5 && shipsDestroyed < shipObj) {

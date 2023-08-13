@@ -238,7 +238,7 @@ while (!startGame) {
     }
   }
 
-  rs.keyIn('Press a key to start! ');
+  rs.keyIn('Press any key to start the game.');
   buildGrid(10);
   totalObjectives();
   displayGrid();

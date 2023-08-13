@@ -161,7 +161,6 @@ while (!startGame) {
   }
 
   const shipAreaClear = (ship, direction, letter, point, formerPoint, index, formerIndex) => {
-    let areaCleared = true;
     if (direction === 'horizontal') {
       for (let i = 0; i < ship.length; i++) {
         if (hiddenGrid['row' + letter][point]) {
@@ -198,7 +197,7 @@ while (!startGame) {
         }
       }
     }
-    return areaCleared;
+    return true;
   }
 
   const validateStrikeCondition = () => new RegExp(`^[${letters[0]}-${letters[letters.length - 1]}]([${1}-${size - 1}]|10)$`);
@@ -245,7 +244,7 @@ while (!startGame) {
     }
   }
 
-  rs.keyIn('Press a key to start! ');
+  rs.keyIn('Press any key to start the game.');
   buildGrids(10);
   totalObjectives();
   addShipObjectives(shipsObj);
@@ -259,7 +258,6 @@ while (!startGame) {
     console.log('You have run out of attempts. Better luck next time!');
   }
   restartGame();
-  // displayGrid(hiddenGrid);
 }
 
 // Would have to a row and letter conditions A1 || B1

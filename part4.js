@@ -218,6 +218,7 @@ while (!startGame) {
   const validateStrikeCondition = () => new RegExp(`^[${letters[0]}-${letters[letters.length - 1]}]([${1}-${size - 1}]|10)$`);
 
   const userTurn = () => {
+    console.log(' ');
     console.log('It is your turn...')
     const strike = rs.question('Enter a Location to Strike = ');
     const letter = strike.charAt(0).toUpperCase(); 
@@ -248,7 +249,6 @@ while (!startGame) {
       displayGrid(cpuGrid);
       console.log('It\'s a Miss');
     }
-    console.log(' ');
   }
 
   const cpuTurn = () => {
@@ -258,8 +258,13 @@ while (!startGame) {
     if (scoreBoard.cpuStrikes.includes(letter + point)) {
       cpuTurn();
     } else {
-      scoreBoard.cpuStrikes.push(letter + point);
-      cpuStrike(letter, point);
+      console.log('CPU\'s turn to go.');
+      setTimeout(() => {
+        console.log('....');
+      }, 1000);
+      setTimeout(() => {
+        cpuStrike(letter, point);
+      }, 2000)
     }
   }
 
@@ -268,11 +273,11 @@ while (!startGame) {
     if (userHiddenGrid['row' + letter][number - 1] === 'O') {
       userGrid['row' + letter][number - 1] = 'X';
       scoreBoard.cpuPoints += 1;
-      displayGrid(userGrid);
+      // displayGrid(userGrid);
       console.log('A piece of your ship was destroyed!');
     } else {
       userGrid['row' + letter][number - 1] = 'O';
-      displayGrid(userGrid);
+      // displayGrid(userGrid);
       console.log('The CPU has missed!');
     }
     console.log(' ');
@@ -314,7 +319,7 @@ while (!startGame) {
     }
   }
 
-  rs.keyIn('Press a key to start! ');
+  rs.keyIn('Press any key to start the game!');
   buildGrids(10);
   getScoreToWin();
   deployShipsOnGrids(shipsObj);
