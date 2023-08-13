@@ -258,13 +258,12 @@ while (!startGame) {
     if (scoreBoard.cpuStrikes.includes(letter + point)) {
       cpuTurn();
     } else {
-      console.log('CPU\'s turn to go.');
-      setTimeout(() => {
-        console.log('....');
-      }, 1000);
-      setTimeout(() => {
-        cpuStrike(letter, point);
-      }, 2000)
+      console.log('___________________');
+      console.log(' ');
+      console.log('! CPU is striking !');
+      console.log('       ....');
+      cpuStrike(letter, point);
+      console.log('___________________');
     }
   }
 
@@ -278,7 +277,7 @@ while (!startGame) {
     } else {
       userGrid['row' + letter][number - 1] = 'O';
       // displayGrid(userGrid);
-      console.log('The CPU has missed!');
+      console.log('The CPU has missed...');
     }
     console.log(' ');
   }
