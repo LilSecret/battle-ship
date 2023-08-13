@@ -226,11 +226,25 @@ while (!startGame) {
       userGrid['row' + letter][number - 1] = 'X';
       points++;
       displayGrid(userGrid);
-      console.log('It\s a Hit! You\'ve destroyed a piece of a ship!');
+      console.log('It\s a Hit!');
+      shipsRemaining();
     } else {
       userGrid['row' + letter][number - 1] = 'O';
       displayGrid(userGrid);
       console.log('You have missed!');
+    }
+  }
+  
+  const shipsRemaining = () => {
+    let remaining = objectives - points;
+    if (remaining > 1) {
+      console.log(`You have ${remaining} ships remaining`);
+    }
+    if (remaining === 1) {
+      console.log(`You have ${remaining} ship remaining`);
+    }
+    if (remaining === 0) {
+      console.log("All the ships are sunk!");
     }
   }
   

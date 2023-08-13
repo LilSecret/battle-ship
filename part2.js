@@ -222,12 +222,26 @@ while (!startGame) {
     userStrikes.push(letter + number);
     if (grid['row' + letter][number - 1] === 'O') {
       points++;
-      console.log('It\s a Hit! You\'ve destroyed a piece of a ship!');
+      console.log('It\s a Hit!');
+      shipsRemaining();
     } else {
       console.log('You have missed!');
     }
   }
   
+  const shipsRemaining = () => {
+    let remaining = objectives - points;
+    if (remaining > 1) {
+      console.log(`You have ${remaining} ships remaining`);
+    }
+    if (remaining === 1) {
+      console.log(`You have ${remaining} ship remaining`);
+    }
+    if (remaining === 0) {
+      console.log("All the ships are sunk!");
+    }
+  }
+
   const restartGame = () => {
     let game = rs.keyInYN('Would You like to play again?');
     if (game) {

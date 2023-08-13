@@ -243,7 +243,8 @@ while (!startGame) {
       cpuGrid['row' + letter][number - 1] = 'X';
       scoreBoard.userPoints += 1;
       displayGrid(cpuGrid);
-      console.log('It\'s a Hit! You\'ve destroyed a piece of a ship!');
+      console.log('It\'s a Hit!');
+      shipsRemaining();
     } else {
       cpuGrid['row' + letter][number - 1] = 'O';
       displayGrid(cpuGrid);
@@ -305,6 +306,19 @@ while (!startGame) {
     if (scoreBoard.cpuPoints === scoreBoard.scoreToWin) {
       console.log('The CPU has destroyed all your ships')
       console.log('Looks like you have lost. Better luck next time!');
+    }
+  }
+
+  const shipsRemaining = () => {
+    let remaining = scoreBoard.scoreToWin - scoreBoard.userPoints;
+    if (remaining > 1) {
+      console.log(`You have ${remaining} ships remaining`);
+    }
+    if (remaining === 1) {
+      console.log(`You have ${remaining} ship remaining`);
+    }
+    if (remaining === 0) {
+      console.log("All the ships are sunk!");
     }
   }
 
