@@ -257,6 +257,8 @@ while (!startGame) {
   totalObjectives();
   displayGrid();
   addShipObjectives(shipsObj);
+  // uncomment line below to show answers 
+  // displayGrid();
   while (points < objectives){
     validStrike();
   }
