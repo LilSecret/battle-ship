@@ -7,7 +7,6 @@ while (!startGame) {
   const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
   const shipsObj = ['OO', 'OOO', 'OOO', 'OOOO', 'OOOOO'];
   const scoreBoard = {
-    players: ['user', 'cpu'],
     userStrikes: [],
     cpuStrikes: [],
     scoreToWin: 0,
@@ -173,7 +172,6 @@ while (!startGame) {
   }
 
   const randomDirection = () => Boolean(Math.round(Math.random())) ? 'vertical' : 'horizontal';
-  const flipACoin = () => Boolean(Math.round(Math.random())) ? scoreBoard.players[0] : scoreBoard.players[1];
 
   const shipAreaClear = (grid, ship, direction, letter, point, formerPoint, index, formerIndex) => {
     if (direction === 'horizontal') {
@@ -219,7 +217,6 @@ while (!startGame) {
 
   const userTurn = () => {
     console.log(' ');
-    console.log('It is your turn...')
     const strike = rs.question('Enter a Location to Strike = ');
     const letter = strike.charAt(0).toUpperCase(); 
     const number = findLocationNum(strike);
@@ -259,12 +256,12 @@ while (!startGame) {
     if (scoreBoard.cpuStrikes.includes(letter + point)) {
       cpuTurn();
     } else {
-      console.log('___________________');
+      console.log(' ');
       console.log(' ');
       console.log('! CPU is striking !');
       console.log('       ....');
       cpuStrike(letter, point);
-      console.log('___________________');
+      console.log(' ');
     }
   }
 
@@ -284,20 +281,9 @@ while (!startGame) {
   }
 
   const game = () => {
-    const player1 = flipACoin();
-    if (player1 === 'user') {
-      console.log('Ding! Looks like you go first...');
-      while (scoreBoard.userPoints != scoreBoard.scoreToWin && scoreBoard.cpuPoints != scoreBoard.scoreToWin) {
-        userTurn();
-        cpuTurn();
-      }
-    } 
-    if (player1 === 'cpu') {
-      console.log('Uhh Ohh! I guess the computer goes first...');
-      while (scoreBoard.userPoints != scoreBoard.scoreToWin && scoreBoard.cpuPoints != scoreBoard.scoreToWin) {
-        cpuTurn();
-        userTurn();
-      }
+    while (scoreBoard.userPoints != scoreBoard.scoreToWin && scoreBoard.cpuPoints != scoreBoard.scoreToWin) {
+      userTurn();
+      cpuTurn();
     }
     if (scoreBoard.userPoints === scoreBoard.scoreToWin) {
       console.log('You have destroyed all of the ships...');
@@ -325,7 +311,7 @@ while (!startGame) {
   const restartGame = () => {
     let game = rs.keyInYN('Would You like to play again?');
     if (game) {
-      console.log('Ohh Ya! Let\'s Get it!')
+      console.log('Ohh Ya! Let\'s Get it!');
       startGame = false;
     } else {
       console.log('Goodbye! Thank You for playing!');
