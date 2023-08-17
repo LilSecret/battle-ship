@@ -37,17 +37,25 @@ while (!startGame) {
 
   const randomNum = () => Math.floor(Math.random() * 9) + 1;
 
+  const getPosition = (ship) => {
+    let position = '';
+    for (let [property, value] of Object.entries(conditions)) {
+      for (let [prop, val] of Object.entries(value)) {
+        if (val.test(ship)) {
+          position += prop.charAt(prop.length - 1);
+        }
+      }
+    }
+    return position;
+  }
+
   const randomShips = (number) => {
-    if (number < 10) {
-      shipObj = number;
-      for (let i = 0; i < number; i++) {
-        logRandomShips();
-      }
-      for (let num of randomShipNumbers) {
-        placeShipOnBoard(num);
-      }
-    } else {
-      console.log('Not enough squares for that number!');
+    shipObj = number;
+    for (let i = 0; i < 2; i++) {
+      logRandomShips();
+    }
+    for (let num of randomShipNumbers) {
+      placeShipOnBoard(num);
     }
   }
 
@@ -118,7 +126,7 @@ while (!startGame) {
   }
   
   rs.keyIn('Press any key to start the game! ');
-  randomShips(2);
+  randomShips();
   logBattleshipBoard();
   while (shipsDestroyed < shipObj) {
     validStrike();
