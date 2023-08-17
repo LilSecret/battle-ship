@@ -6,7 +6,7 @@ while (!startGame) {
   startGame = true;
 
   const randomShipNumbers = [];
-  const userStrikes = [];
+  const userStrikes = []; 
   let shipsDestroyed = 0;
   let shipObj;
 
@@ -145,11 +145,11 @@ while (!startGame) {
   rs.keyIn('Press any key to start the game! ');
   randomShips(2);
   logBattleshipBoard();
-  while (userStrikes.length < 5 && shipsDestroyed < shipObj) {
+  while (shipsDestroyed < shipObj) {
     validStrike();
   }
+  console.log('!!!!You WIN!!!!');
   if (shipsDestroyed === shipObj) {
-    console.log('You WIN!!!!');
     let game = rs.keyInYN('You have destroyed all battleships. Would you like to play again? Y/N');
     if (game) {
       startGame = false;
