@@ -257,16 +257,11 @@ while (!startGame) {
   totalObjectives();
   displayGrid();
   addShipObjectives(shipsObj);
-  while (userStrikes.length < attempts && points < objectives){
+  while (points < objectives){
     validStrike();
   }
-  if (points === objectives) {
-    console.log('!!!!!!!!!YOU WIN!!!!!!!!!!');
-  } else {
-    console.log('You have run out of attempts. Better luck next time!');
-  }
+  console.log('!!!!!!!!!YOU WIN!!!!!!!!!!');
   restartGame();
-  // displayGrid();
 }
 
 // Would have to a row and letter conditions A1 || B1
