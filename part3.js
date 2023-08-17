@@ -9,7 +9,6 @@ while (!startGame) {
   const shipsObj = ['OO', 'OOO', 'OOO', 'OOOO', 'OOOOO'];
   const randomStartingPositions = [];
   const userStrikes = [];
-  const attempts = 35;
   let objectives = 0;
   let points = 0;
   let size;
@@ -122,7 +121,7 @@ while (!startGame) {
         }
       }
     } else {
-      placeShip(ship, grid);
+      placeShip(ship);
     }
   }
 
@@ -263,14 +262,10 @@ while (!startGame) {
   totalObjectives();
   addShipObjectives(shipsObj);
   displayGrid(userGrid);
-  while (userStrikes.length < attempts && points < objectives){
+  while (points < objectives){
     validStrike();
   }
-  if (points === objectives) {
-    console.log('!!!!!!!!!YOU WIN!!!!!!!!!!');
-  } else {
-    console.log('You have run out of attempts. Better luck next time!');
-  }
+  console.log(`!!!! You Win !!!!`);
   restartGame();
 }
 
