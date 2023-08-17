@@ -22,6 +22,19 @@ while (!startGame) {
     rowC: ['-', '-', '-'],
   }
 
+  const conditions = {
+    row: {
+      rowA:  /^[1-3]$/,
+      rowB: /^[4-6]$/,
+      rowC: /^[7-9]$/,
+    },
+    column: {
+      one1:  /^(1||4||7)$/,
+      two2:  /^(2||5||8)$/,
+      three3:  /^(3||6||9)$/,
+    }
+  }
+
   const randomNum = () => Math.floor(Math.random() * 9) + 1;
 
   const randomShips = (number) => {
@@ -47,49 +60,6 @@ while (!startGame) {
       randomShipNumbers.push(randomShipNum);
     }
     return randomShipNum
-  }
-
-  const placeShipOnBoard = (ship) => {
-    const rowA = ship === 1 || ship === 2 || ship === 3;
-    const rowB = ship === 4 || ship === 5 || ship === 6;
-    const rowC = ship === 7 || ship === 8 || ship === 9;
-    const one = ship === 1 || ship === 4 || ship === 7;
-    const two = ship === 2 || ship === 5 || ship === 8;
-    const three = ship === 3 || ship === 6 || ship === 9;
-
-    if (rowA) {
-      if (one) {
-        board.rowA[0] = '0';
-      }
-      if (two) {
-        board.rowA[1] = '0';
-      }
-      if (three) {
-        board.rowA[2] = '0';
-      }
-    }
-    if (rowB) {
-      if (one) {
-        board.rowB[0] = '0';
-      }
-      if (two) {
-        board.rowB[1] = '0';
-      }
-      if (three) {
-        board.rowB[2] = '0';
-      }
-    }
-    if (rowC) {
-      if (one) {
-        board.rowC[0] = '0';
-      }
-      if (two) {
-        board.rowC[1] = '0';
-      }
-      if (three) {
-        board.rowC[2] = '0';
-      }
-    }
   }
 
   const logBattleshipBoard = () => {
