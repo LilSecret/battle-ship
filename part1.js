@@ -5,7 +5,7 @@ let startGame;
 while (!startGame) {
   startGame = true;
 
-  const randomShipNumbers = [];
+  const randomShipLocations = [];
   const userStrikes = []; 
   let shipsDestroyed = 0;
   let shipObj;
@@ -49,33 +49,30 @@ while (!startGame) {
     return position;
   }
 
-  const placeShipOnBoard = (number) => {
-    let location = getPosition(number);
+  const placeShipOnBoard = (location) => {
     let letter = location.charAt(0);
     let column = location.charAt(1) - 1;
 
     board['row' + letter][+column] = 0;
   }
 
-  const randomShips = (number) => {
+  const placeRandomShips = (number) => {
     shipObj = number;
-    for (let i = 0; i < 2; i++) {
-      logRandomShips();
+    for (let i = 0; i < number; i++) {
+      let location = getPosition(randomNum());
+      logRandomShips(location);
     }
-    for (let num of randomShipNumbers) {
-      placeShipOnBoard(num);
+    for (let spot of randomShipLocations) {
+      placeShipOnBoard(spot);
     }
   }
 
-  const logRandomShips = () => {
-    let randomShipNum = randomNum();
-    
-    if (randomShipNumbers.includes(randomShipNum)) {
+  const logRandomShips = (location) => {
+    if (randomShipLocations.includes(location)) {
       logRandomShips();
     } else {
-      randomShipNumbers.push(randomShipNum);
+      randomShipLocations.push(location);
     }
-    return randomShipNum
   }
 
   const logBattleshipBoard = () => {
@@ -134,8 +131,9 @@ while (!startGame) {
   }
   
   rs.keyIn('Press any key to start the game! ');
-  randomShips();
+  placeRandomShips(2);
   logBattleshipBoard();
+  console.log(randomShipLocations);
   while (shipsDestroyed < shipObj) {
     validStrike();
   }
