@@ -134,14 +134,19 @@ while (!startGame) {
       }
       userBoard['row' + letter][number - 1] = 'H';
       shipsDestroyed++;
-      logBattleshipBoard();
     } else {
       console.log('You have missed!');
       userBoard['row' + letter][number - 1] = 'M';
-      logBattleshipBoard();
     }
   }
 
+  const restart = () => {
+    let game = rs.keyInYN('You have destroyed all battleships. Would you like to play again? Y/N');
+    if (game) {
+      startGame = false;
+    }
+  }
+  
   rs.keyIn('Press any key to start the game! ');
   randomShips(2);
   logBattleshipBoard();
@@ -149,16 +154,5 @@ while (!startGame) {
     validStrike();
   }
   console.log('!!!!You WIN!!!!');
-  if (shipsDestroyed === shipObj) {
-    let game = rs.keyInYN('You have destroyed all battleships. Would you like to play again? Y/N');
-    if (game) {
-      startGame = false;
-    }
-  } else {
-    console.log('You are out of strikes! You Lose!');
-    let game = rs.keyInYN('Would you like to play again? Y/N');
-    if (game) {
-      startGame = false;
-    }
-  }
+  restart();
 }
