@@ -109,17 +109,15 @@ while (!startGame) {
 
   const strikeBoard = (letter, number) => {
     userStrikes.push(letter + number);
-    let userSpot = userBoard['row' + letter][number - 1];
-    let boardSpot = board['row' + letter][number - 1];
-    if (boardSpot === '0') {
+    number--;
+    let boardSpot = board['row' + letter][number];
+    if (boardSpot === 0) {
       if (shipsDestroyed === 0) {
         console.log('Hit! You have sunken a battleship. One ship remaining.');
       }
-      userBoard['row' + letter][number - 1] = 'H';
       shipsDestroyed++;
     } else {
       console.log('You have missed!');
-      userBoard['row' + letter][number - 1] = 'M';
     }
   }
 
@@ -132,8 +130,8 @@ while (!startGame) {
   
   rs.keyIn('Press any key to start the game! ');
   placeRandomShips(2);
-  logBattleshipBoard();
   console.log(randomShipLocations);
+  logBattleshipBoard();
   while (shipsDestroyed < shipObj) {
     validStrike();
   }
