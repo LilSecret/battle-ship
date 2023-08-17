@@ -49,6 +49,14 @@ while (!startGame) {
     return position;
   }
 
+  const placeShipOnBoard = (number) => {
+    let location = getPosition(number);
+    let letter = location.charAt(0);
+    let column = location.charAt(1) - 1;
+
+    board['row' + letter][+column] = 0;
+  }
+
   const randomShips = (number) => {
     shipObj = number;
     for (let i = 0; i < 2; i++) {
