@@ -2,6 +2,36 @@ var rs = require('readline-sync');
 
 let startGame;
 
+const randomShipLocations = [];
+const userStrikes = []; 
+let shipsDestroyed = 0;
+let shipObj;
+
+const board = {
+  rowA: ['-', '-', '-'],
+  rowB: ['-', '-', '-'],
+  rowC: ['-', '-', '-'],
+}
+
+const userBoard = {
+  rowA: ['-', '-', '-'],
+  rowB: ['-', '-', '-'],
+  rowC: ['-', '-', '-'],
+}
+
+const conditions = {
+  row: {
+    rowA:  /^[1-3]$/,
+    rowB: /^[4-6]$/,
+    rowC: /^[7-9]$/,
+  },
+  column: {
+    one1:  /^(1||4||7)$/,
+    two2:  /^(2||5||8)$/,
+    three3:  /^(3||6||9)$/,
+  }
+}
+
 const randomNum = () => Math.floor(Math.random() * 9) + 1;
 
 const getPosition = (ship) => {
@@ -98,36 +128,6 @@ const restart = () => {
 while (!startGame) {
   startGame = true;
 
-  const randomShipLocations = [];
-  const userStrikes = []; 
-  let shipsDestroyed = 0;
-  let shipObj;
-
-  const board = {
-    rowA: ['-', '-', '-'],
-    rowB: ['-', '-', '-'],
-    rowC: ['-', '-', '-'],
-  }
-
-  const userBoard = {
-    rowA: ['-', '-', '-'],
-    rowB: ['-', '-', '-'],
-    rowC: ['-', '-', '-'],
-  }
-
-  const conditions = {
-    row: {
-      rowA:  /^[1-3]$/,
-      rowB: /^[4-6]$/,
-      rowC: /^[7-9]$/,
-    },
-    column: {
-      one1:  /^(1||4||7)$/,
-      two2:  /^(2||5||8)$/,
-      three3:  /^(3||6||9)$/,
-    }
-  }
-  
   rs.keyIn('Press any key to start the game! ');
   placeRandomShips(2);
   console.log(randomShipLocations);
