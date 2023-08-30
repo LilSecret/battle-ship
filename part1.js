@@ -4,15 +4,12 @@ let startGame;
 
 const randomShipLocations = [];
 const userStrikes = []; 
+const letters = ['A', 'B', 'C'];
 const ship = 'O';
 let shipsDestroyed = 0;
 let shipObj;
 
-const board = {
-  rowA: ['-', '-', '-'],
-  rowB: ['-', '-', '-'],
-  rowC: ['-', '-', '-'],
-}
+const board = {};
 
 const conditions = {
   row: {
@@ -24,6 +21,15 @@ const conditions = {
     one1:  /^(1||4||7)$/,
     two2:  /^(2||5||8)$/,
     three3:  /^(3||6||9)$/,
+  }
+}
+
+const buildBoard = (size) => {
+  for (let letter of letters) {
+    board[`row${letter}`] = [];
+    for (let i = 0; i < size; i++) {
+      board[`row${letter}`].push('-');
+    }
   }
 }
 
@@ -129,12 +135,20 @@ while (!startGame) {
   startGame = true;
 
   rs.keyIn('Press any key to start the game! ');
-  placeRandomShips(2);
-  console.log(randomShipLocations);
-  logBattleshipBoard();
-  while (shipsDestroyed < shipObj) {
-    validStrike();
-  }
-  console.log('!!!!You WIN!!!!');
-  restart();
+  buildBoard(3);
+  // placeRandomShips(2);
+  // console.log(randomShipLocations);
+  // logBattleshipBoard();
+  // while (shipsDestroyed < shipObj) {
+  //   validStrike();
+  // }
+  // console.log('!!!!You WIN!!!!');
+  // restart();
 }
+
+// make board
+// clear board and score
+// place ships on board
+// ask user for strikes
+// play until user points equals win condition
+// ask to play again
