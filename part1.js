@@ -2,12 +2,12 @@ var rs = require('readline-sync');
 
 let startGame;
 
-const randomShipLocations = [];
-const userStrikes = []; 
 const letters = ['A', 'B', 'C'];
 const ship = 'O';
+const randomShipLocations = ['A1', 'B2'];
+const userStrikes = ['A2', 'B3']; 
 let shipsDestroyed = 0;
-let shipObj;
+let shipObj = 0;
 
 const board = {};
 
@@ -31,6 +31,13 @@ const buildBoard = (size) => {
       board[`row${letter}`].push('-');
     }
   }
+}
+
+const clearStats = () => {
+  shipsDestroyed = 0;
+  shipObj = 0;
+  userStrikes.splice(0, userStrikes.length);
+  randomShipLocations.splice(0, randomShipLocations.length);
 }
 
 const randomNum = (max) => Math.floor(Math.random() * max) + 1;
@@ -136,6 +143,9 @@ while (!startGame) {
 
   rs.keyIn('Press any key to start the game! ');
   buildBoard(3);
+  clearStats()
+  console.log(userStrikes);
+  console.log(randomShipLocations);
   // placeRandomShips(2);
   // console.log(randomShipLocations);
   // logBattleshipBoard();
