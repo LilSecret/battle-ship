@@ -4,16 +4,11 @@ let startGame;
 
 const randomShipLocations = [];
 const userStrikes = []; 
+const ship = 'O';
 let shipsDestroyed = 0;
 let shipObj;
 
 const board = {
-  rowA: ['-', '-', '-'],
-  rowB: ['-', '-', '-'],
-  rowC: ['-', '-', '-'],
-}
-
-const userBoard = {
   rowA: ['-', '-', '-'],
   rowB: ['-', '-', '-'],
   rowC: ['-', '-', '-'],
@@ -32,7 +27,7 @@ const conditions = {
   }
 }
 
-const randomNum = () => Math.floor(Math.random() * 9) + 1;
+const randomNum = (max) => Math.floor(Math.random() * max) + 1;
 
 const getPosition = (ship) => {
   let position = '';
@@ -46,38 +41,43 @@ const getPosition = (ship) => {
   return position;
 }
 
-const placeShipOnBoard = (location) => {
+const placeShipOnBoard = (location, board) => {
   let letter = location.charAt(0);
   let column = location.charAt(1) - 1;
+  board['row' + letter][+column] = ship;
+}
 
-  board['row' + letter][+column] = 0;
+const uniqueSpot = () => {
+  let location = getPosition(randomNum(9));
+  if(!logRandomShips(location)) {
+    uniqueSpot();
+  } else {
+    randomShipLocations.push(location);
+    return location;
+  }
 }
 
 const placeRandomShips = (number) => {
   shipObj = number;
   for (let i = 0; i < number; i++) {
-    let location = getPosition(randomNum());
-    logRandomShips(location);
-  }
-  for (let spot of randomShipLocations) {
-    placeShipOnBoard(spot);
+    placeShipOnBoard(uniqueSpot(), board);
   }
 }
 
 const logRandomShips = (location) => {
-  if (randomShipLocations.includes(location)) {
-    logRandomShips();
-  } else {
+  if (!randomShipLocations.includes(location)) {
     randomShipLocations.push(location);
+    return true;
   }
+  return false;
 }
 
-const logBattleshipBoard = () => {
+const logBattleshipBoard = (board) => {
   const battleshipBoard = {
     borderTop: '  --1-2-3--',
-    rowA: `A | ${userBoard.rowA[0]} ${userBoard.rowA[1]} ${userBoard.rowA[2]} |`,
-    rowB: `B | ${userBoard.rowB[0]} ${userBoard.rowB[1]} ${userBoard.rowB[2]} |`,
-    rowC: `C | ${userBoard.rowC[0]} ${userBoard.rowC[1]} ${userBoard.rowC[2]} |`,
+    rowA: `A | ${board.rowA[0]} ${board.rowA[1]} ${board.rowA[2]} |`,
+    rowB: `B | ${board.rowB[0]} ${board.rowB[1]} ${board.rowB[2]} |`,
+    rowC: `C | ${board.rowC[0]} ${board.rowC[1]} ${board.rowC[2]} |`,
     borderBottom: '  ---------',
   }
 
