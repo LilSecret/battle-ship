@@ -4,8 +4,8 @@ let startGame;
 
 const letters = ['A', 'B', 'C'];
 const ship = 'O';
-const randomShipLocations = ['A1', 'B2'];
-const userStrikes = ['A2', 'B3']; 
+const randomShipLocations = [];
+const userStrikes = []; 
 let shipsDestroyed = 0;
 let shipObj = 0;
 
@@ -54,18 +54,19 @@ const getPosition = (ship) => {
   return position;
 }
 
-const placeShipOnBoard = (location, board) => {
+const placeShipOnBoard = (location) => {
   let letter = location.charAt(0);
-  let column = location.charAt(1) - 1;
-  board['row' + letter][+column] = ship;
+  let column = Number(location.charAt(1)) - 1;
+  board['row' + letter][column] = ship;
 }
 
 const uniqueSpot = () => {
-  let location = getPosition(randomNum(9));
-  if(!logRandomShips(location)) {
+  let location = 'A1';
+  // let location = getPosition(randomNum(9));
+  let duplicateShip = logRandomShips(location); 
+  if (!duplicateShip) {
     uniqueSpot();
   } else {
-    randomShipLocations.push(location);
     return location;
   }
 }
@@ -73,7 +74,8 @@ const uniqueSpot = () => {
 const placeRandomShips = (number) => {
   shipObj = number;
   for (let i = 0; i < number; i++) {
-    placeShipOnBoard(uniqueSpot(), board);
+    let position = uniqueSpot();
+    placeShipOnBoard(position);
   }
 }
 
@@ -85,7 +87,7 @@ const logRandomShips = (location) => {
   return false;
 }
 
-const logBattleshipBoard = (board) => {
+const logBattleshipBoard = () => {
   const battleshipBoard = {
     borderTop: '  --1-2-3--',
     rowA: `A | ${board.rowA[0]} ${board.rowA[1]} ${board.rowA[2]} |`,
@@ -138,17 +140,14 @@ const restart = () => {
   }
 }
 
+buildBoard(3);
 while (!startGame) {
   startGame = true;
 
   rs.keyIn('Press any key to start the game! ');
-  buildBoard(3);
   clearStats()
-  console.log(userStrikes);
-  console.log(randomShipLocations);
-  // placeRandomShips(2);
-  // console.log(randomShipLocations);
-  // logBattleshipBoard();
+  placeRandomShips(2);
+  logBattleshipBoard(board);
   // while (shipsDestroyed < shipObj) {
   //   validStrike();
   // }
@@ -159,6 +158,8 @@ while (!startGame) {
 // make board
 // clear board and score
 // place ships on board
+// get two random unique ships
+// place on board
 // ask user for strikes
 // play until user points equals win condition
 // ask to play again
