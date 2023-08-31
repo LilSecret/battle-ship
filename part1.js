@@ -6,10 +6,9 @@ const letters = ['A', 'B', 'C'];
 const ship = 'O';
 const randomShipLocations = [];
 const userStrikes = []; 
+const gridSize = 3;
 let shipsDestroyed = 0;
 let shipObj = 0;
-
-const board = {};
 
 const conditions = {
   row: {
@@ -24,14 +23,13 @@ const conditions = {
   }
 }
 
-const buildBoard = (size) => {
-  for (let letter of letters) {
-    board[`row${letter}`] = [];
+const getCleanGameBoard = (size) => letters.reduce((acc, val) => {
+    const resArr = []
     for (let i = 0; i < size; i++) {
-      board[`row${letter}`].push('-');
+      resArr.push('-');
     }
-  }
-}
+    return {...acc, [`row${val}`]: resArr}
+  }, {});
 
 const clearStats = () => {
   shipsDestroyed = 0;
@@ -61,8 +59,7 @@ const placeShipOnBoard = (location) => {
 }
 
 const uniqueSpot = () => {
-  let location = 'A1';
-  // let location = getPosition(randomNum(9));
+  let location = getPosition(randomNum(gridSize * gridSize));
   let duplicateShip = logRandomShips(location); 
   if (!duplicateShip) {
     uniqueSpot();
@@ -140,26 +137,23 @@ const restart = () => {
   }
 }
 
-buildBoard(3);
+const board = getCleanGameBoard(gridSize);
+
 while (!startGame) {
   startGame = true;
-
+  
   rs.keyIn('Press any key to start the game! ');
-  clearStats()
+  console.log(board);
+  clearStats();
   placeRandomShips(2);
   logBattleshipBoard(board);
-  // while (shipsDestroyed < shipObj) {
-  //   validStrike();
-  // }
-  // console.log('!!!!You WIN!!!!');
-  // restart();
+  while (shipsDestroyed < shipObj) {
+    validStrike();
+  }
+  console.log('!!!!You WIN!!!!');
+  restart();
 }
 
-// make board
-// clear board and score
-// place ships on board
-// get two random unique ships
-// place on board
 // ask user for strikes
 // play until user points equals win condition
 // ask to play again
