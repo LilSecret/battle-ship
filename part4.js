@@ -1,18 +1,18 @@
-var rs = require('readline-sync');
+var rs = require("readline-sync");
 
 let startGame;
 
 while (!startGame) {
   startGame = true;
-  const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
-  const shipsObj = ['OO', 'OOO', 'OOO', 'OOOO', 'OOOOO'];
+  const letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+  const shipsObj = ["OO", "OOO", "OOO", "OOOO", "OOOOO"];
   const scoreBoard = {
     userStrikes: [],
     cpuStrikes: [],
     scoreToWin: 0,
     userPoints: 0,
     cpuPoints: 0,
-  }
+  };
   let size;
 
   const conditions = {
@@ -40,7 +40,7 @@ while (!startGame) {
       nine: /^(9|[1-9]9)*$/,
       ten: /^(100|[1-9]0)*$/,
     },
-  }
+  };
   const userHiddenGrid = {};
   const cpuHiddenGrid = {};
   const userGrid = {};
@@ -49,57 +49,57 @@ while (!startGame) {
   const buildGrids = (amount) => {
     size = amount;
     for (let i = 0; i < amount; i++) {
-      userHiddenGrid['row' + letters[i]] = [];
-      cpuHiddenGrid['row' + letters[i]] = [];
-      userGrid['row' + letters[i]] = [];
-      cpuGrid['row' + letters[i]] = [];
+      userHiddenGrid["row" + letters[i]] = [];
+      cpuHiddenGrid["row" + letters[i]] = [];
+      userGrid["row" + letters[i]] = [];
+      cpuGrid["row" + letters[i]] = [];
       for (let j = 0; j < amount; j++) {
-        userHiddenGrid['row' + letters[i]].push(' ');
-        cpuHiddenGrid['row' + letters[i]].push(' ');
-        userGrid['row' + letters[i]].push(' ');
-        cpuGrid['row' + letters[i]].push(' ');
+        userHiddenGrid["row" + letters[i]].push(" ");
+        cpuHiddenGrid["row" + letters[i]].push(" ");
+        userGrid["row" + letters[i]].push(" ");
+        cpuGrid["row" + letters[i]].push(" ");
       }
     }
-  }
+  };
 
   const displayGrid = (grid) => {
-    let topBorder = '   ';
-    console.log(' ');
-    console.log(' '); 
+    let topBorder = "   ";
+    console.log(" ");
+    console.log(" ");
     if (grid === userGrid) {
-      console.log('______________  CPU\'s Strike  ______________');
+      console.log("______________  CPU's Strike  ______________");
     }
     if (grid === cpuGrid) {
-      console.log('______________  User\'s Strike  ______________');
+      console.log("______________  User's Strike  ______________");
     }
     for (let i = 1; i < letters.length + 1; i++) {
-      topBorder += '  ' + i + ' ';
+      topBorder += "  " + i + " ";
     }
-    console.log(' ');
+    console.log(" ");
     console.log(topBorder);
     for (let [property, value] of Object.entries(grid)) {
-      let letterLine = ' ' + property.charAt(3) + ' | ';
+      let letterLine = " " + property.charAt(3) + " | ";
       for (let j = 0; j < value.length; j++) {
-        letterLine += value[j] + ' | ';
+        letterLine += value[j] + " | ";
       }
       console.log(letterLine);
-      console.log('--------------------------------------------');
+      console.log("--------------------------------------------");
     }
-  }
+  };
 
   const getScoreToWin = () => {
     for (let ship of shipsObj) {
       scoreBoard.scoreToWin += ship.length;
     }
-  }
+  };
 
   const deployShipsOnGrids = (ships) => {
     for (let ship of ships) {
       placeShipInGrid(ship, userHiddenGrid);
       placeShipInGrid(ship, cpuHiddenGrid);
     }
-  }
-  
+  };
+
   const randomNumOf100 = () => Math.floor(Math.random() * 100) + 1;
 
   const placeShipInGrid = (ship, grid) => {
@@ -110,42 +110,69 @@ while (!startGame) {
     let index = letters.indexOf(letter);
     let formerIndex = index - 1;
     let direction = randomDirection();
-    let isAreaCleared = shipAreaClear(grid, ship, direction, letter, point, formerPoint, index, formerIndex);
+    let isAreaCleared = shipAreaClear(
+      grid,
+      ship,
+      direction,
+      letter,
+      point,
+      formerPoint,
+      index,
+      formerIndex
+    );
 
     if (isAreaCleared) {
       // console.log(`Location: ${randomLocation}, Ship size: ${ship.length}, Direction: ${direction}`);
-      deployShip(grid, ship, direction, letter, point, formerPoint, index, formerIndex);
+      deployShip(
+        grid,
+        ship,
+        direction,
+        letter,
+        point,
+        formerPoint,
+        index,
+        formerIndex
+      );
     } else {
       placeShipInGrid(ship, grid);
     }
-  }
+  };
 
-  const deployShip = (grid, ship, direction, letter, point, formerPoint, index, formerIndex) => {
-    if (direction === 'horizontal') {
+  const deployShip = (
+    grid,
+    ship,
+    direction,
+    letter,
+    point,
+    formerPoint,
+    index,
+    formerIndex
+  ) => {
+    if (direction === "horizontal") {
       for (let unit of ship) {
-        if (grid['row' + letter].includes(grid['row' + letter][point])) {
-          grid['row' + letter][point] = 'O';
+        if (grid["row" + letter].includes(grid["row" + letter][point])) {
+          grid["row" + letter][point] = "O";
           point++;
-        }
-        else if (!grid['row' + letter].includes(grid['row' + letter][point])) {
-          grid['row' + letter][formerPoint] = 'O';
+        } else if (
+          !grid["row" + letter].includes(grid["row" + letter][point])
+        ) {
+          grid["row" + letter][formerPoint] = "O";
           formerPoint--;
         }
       }
     }
-    if (direction === 'vertical') {
+    if (direction === "vertical") {
       for (let unit of ship) {
-        if (grid.hasOwnProperty('row' + letters[index])) {
-          grid['row' + letters[index]][point] = 'O';
+        if (grid.hasOwnProperty("row" + letters[index])) {
+          grid["row" + letters[index]][point] = "O";
           index++;
-        }
-        else if (!grid.hasOwnProperty('row' + letters[index])) {
-          grid['row' + letters[formerIndex]][point] = 'O';
+        } else if (!grid.hasOwnProperty("row" + letters[index])) {
+          grid["row" + letters[formerIndex]][point] = "O";
           formerIndex--;
         }
       }
     }
-  }
+  };
 
   const findLocation = (number) => {
     let spot;
@@ -155,54 +182,66 @@ while (!startGame) {
         break;
       }
     }
-    for (const [index, [property, value]] of Object.entries(conditions.numbers).entries()) {
+    for (const [index, [property, value]] of Object.entries(
+      conditions.numbers
+    ).entries()) {
       if (value.test(number)) {
         spot += index + 1;
         break;
       }
     }
     return spot;
-  }
+  };
 
   const findLocationNum = (location) => {
     if (location.length === 3) {
       return Number(location.charAt(1) + location.charAt(2));
     }
     return +location.charAt(1);
-  }
+  };
 
-  const randomDirection = () => Boolean(Math.round(Math.random())) ? 'vertical' : 'horizontal';
+  const randomDirection = () =>
+    Boolean(Math.round(Math.random())) ? "vertical" : "horizontal";
 
-  const shipAreaClear = (grid, ship, direction, letter, point, formerPoint, index, formerIndex) => {
-    if (direction === 'horizontal') {
+  const shipAreaClear = (
+    grid,
+    ship,
+    direction,
+    letter,
+    point,
+    formerPoint,
+    index,
+    formerIndex
+  ) => {
+    if (direction === "horizontal") {
       for (let i = 0; i < ship.length; i++) {
-        if (grid['row' + letter][point]) {
-          if (grid['row' + letter][point] === ' ') {
+        if (grid["row" + letter][point]) {
+          if (grid["row" + letter][point] === " ") {
             point++;
           } else {
             return false;
           }
         }
-        if (!grid['row' + letter][point]) {
-          if (grid['row' + letter][formerPoint] === ' ') {
+        if (!grid["row" + letter][point]) {
+          if (grid["row" + letter][formerPoint] === " ") {
             formerPoint--;
           } else {
             return false;
-          } 
+          }
         }
       }
     }
-    if (direction === 'vertical') {
+    if (direction === "vertical") {
       for (let i = 0; i < ship.length; i++) {
-        if (grid.hasOwnProperty('row' + letters[index])) {
-          if (grid['row' + letters[index]][point] === ' ') {
+        if (grid.hasOwnProperty("row" + letters[index])) {
+          if (grid["row" + letters[index]][point] === " ") {
             index++;
           } else {
             return false;
           }
         }
-        if (!grid.hasOwnProperty('row' + letters[index])) {
-          if (grid['row' + letters[formerIndex]][point] === ' ') {
+        if (!grid.hasOwnProperty("row" + letters[index])) {
+          if (grid["row" + letters[formerIndex]][point] === " ") {
             formerIndex--;
           } else {
             return false;
@@ -211,43 +250,46 @@ while (!startGame) {
       }
     }
     return true;
-  }
+  };
 
-  const validateStrikeCondition = () => new RegExp(`^[${letters[0]}-${letters[letters.length - 1]}]([${1}-${size - 1}]|10)$`);
+  const validateStrikeCondition = () =>
+    new RegExp(
+      `^[${letters[0]}-${letters[letters.length - 1]}]([${1}-${size - 1}]|10)$`
+    );
 
   const userTurn = () => {
-    console.log(' ');
-    const strike = rs.question('Enter a Location to Strike = ');
-    const letter = strike.charAt(0).toUpperCase(); 
+    console.log(" ");
+    const strike = rs.question("Enter a Location to Strike = ");
+    const letter = strike.charAt(0).toUpperCase();
     const number = findLocationNum(strike);
     const validateStrike = validateStrikeCondition();
     if (validateStrike.test(letter + number)) {
       if (scoreBoard.userStrikes.includes(letter + number)) {
-        console.log('You have already picked this location.');
+        console.log("You have already picked this location.");
         userTurn();
       } else {
         userStrike(letter, number);
       }
     } else {
-      console.log('Invalid Input! Try Again.');
+      console.log("Invalid Input! Try Again.");
       userTurn();
     }
-  }
+  };
 
   const userStrike = (letter, number) => {
     scoreBoard.userStrikes.push(letter + number);
-    if (cpuHiddenGrid['row' + letter][number - 1] === 'O') {
-      cpuGrid['row' + letter][number - 1] = 'X';
+    if (cpuHiddenGrid["row" + letter][number - 1] === "O") {
+      cpuGrid["row" + letter][number - 1] = "X";
       scoreBoard.userPoints += 1;
       displayGrid(cpuGrid);
-      console.log('It\'s a Hit!');
+      console.log("It's a Hit!");
       shipsRemaining();
     } else {
-      cpuGrid['row' + letter][number - 1] = 'O';
+      cpuGrid["row" + letter][number - 1] = "O";
       displayGrid(cpuGrid);
-      console.log('It\'s a Miss');
+      console.log("It's a Miss");
     }
-  }
+  };
 
   const cpuTurn = () => {
     const randomLocation = findLocation(randomNumOf100());
@@ -256,44 +298,47 @@ while (!startGame) {
     if (scoreBoard.cpuStrikes.includes(letter + point)) {
       cpuTurn();
     } else {
-      console.log(' ');
-      console.log(' ');
-      console.log('! CPU is striking !');
-      console.log('       ....');
+      console.log(" ");
+      console.log(" ");
+      console.log("! CPU is striking !");
+      console.log("       ....");
       cpuStrike(letter, point);
-      console.log(' ');
+      console.log(" ");
     }
-  }
+  };
 
   const cpuStrike = (letter, number) => {
     scoreBoard.cpuStrikes.push(letter + number);
-    if (userHiddenGrid['row' + letter][number - 1] === 'O') {
-      userGrid['row' + letter][number - 1] = 'X';
+    if (userHiddenGrid["row" + letter][number - 1] === "O") {
+      userGrid["row" + letter][number - 1] = "X";
       scoreBoard.cpuPoints += 1;
       // displayGrid(userGrid);
-      console.log('A piece of your ship was destroyed!');
+      console.log("A piece of your ship was destroyed!");
     } else {
-      userGrid['row' + letter][number - 1] = 'O';
+      userGrid["row" + letter][number - 1] = "O";
       // displayGrid(userGrid);
-      console.log('The CPU has missed...');
+      console.log("The CPU has missed...");
     }
-    console.log(' ');
-  }
+    console.log(" ");
+  };
 
   const game = () => {
-    while (scoreBoard.userPoints != scoreBoard.scoreToWin && scoreBoard.cpuPoints != scoreBoard.scoreToWin) {
+    while (
+      scoreBoard.userPoints != scoreBoard.scoreToWin &&
+      scoreBoard.cpuPoints != scoreBoard.scoreToWin
+    ) {
       userTurn();
       cpuTurn();
     }
     if (scoreBoard.userPoints === scoreBoard.scoreToWin) {
-      console.log('You have destroyed all of the ships...');
-      console.log('!!!!Congratulation! You Win!!!!');
+      console.log("You have destroyed all of the ships...");
+      console.log("!!!!Congratulation! You Win!!!!");
     }
     if (scoreBoard.cpuPoints === scoreBoard.scoreToWin) {
-      console.log('The CPU has destroyed all your ships')
-      console.log('Looks like you have lost. Better luck next time!');
+      console.log("The CPU has destroyed all your ships");
+      console.log("Looks like you have lost. Better luck next time!");
     }
-  }
+  };
 
   const shipsRemaining = () => {
     let remaining = scoreBoard.scoreToWin - scoreBoard.userPoints;
@@ -306,19 +351,19 @@ while (!startGame) {
     if (remaining === 0) {
       console.log("All the ships are sunk!");
     }
-  }
+  };
 
   const restartGame = () => {
-    let game = rs.keyInYN('Would You like to play again?');
+    let game = rs.keyInYN("Would You like to play again?");
     if (game) {
-      console.log('Ohh Ya! Let\'s Get it!');
+      console.log("Ohh Ya! Let's Get it!");
       startGame = false;
     } else {
-      console.log('Goodbye! Thank You for playing!');
+      console.log("Goodbye! Thank You for playing!");
     }
-  }
+  };
 
-  rs.keyIn('Press any key to start the game!');
+  rs.keyIn("Press any key to start the game!");
   buildGrids(10);
   getScoreToWin();
   deployShipsOnGrids(shipsObj);
