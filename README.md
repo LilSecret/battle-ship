@@ -39,3 +39,6 @@ This was my first **Javascript** project for an assignment in Devslopes Academy 
 - **Striking animation:** Adding a display of some sort of the ship being destroyed.
 
 ## 🎥 Demo
+
+https://github.com/LilSecret/battle-ship/assets/72845680/ce0e8790-8b4d-4d0c-8581-757c94a2a622
+
